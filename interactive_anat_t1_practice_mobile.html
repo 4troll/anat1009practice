@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ANAT 1009 Practice Exam Suite (100 Questions)</title>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --correct-border: #16a34a;
+            --correct-bg: #f0fdf4;
+            --correct-text: #15803d;
+            --wrong-border: #dc2626;
+            --wrong-bg: #fef2f2;
+            --wrong-text: #b91c1c;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        /* Sticky Header */
+        header {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+            padding: 12px 16px;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-title h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .header-title p {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .score-badge {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Navigation / Filter Bar */
+        .nav-bar {
+            max-width: 800px;
+            margin: 16px auto 0;
+            padding: 0 16px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+        }
+
+        /* Main Container */
+        main {
+            max-width: 800px;
+            margin: 16px auto;
+            padding: 0 16px;
+        }
+
+        /* Question Cards */
+        .q-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .q-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .q-num {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .q-cat {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .q-text {
+            font-size: 0.98rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+
+        /* Options */
+        .opt-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .opt-btn {
+            display: flex;
+            align-items: flex-start;
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            background: #ffffff;
+            color: var(--text-main);
+            font-size: 0.92rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        .opt-btn:active {
+            background-color: #f1f5f9;
+        }
+
+        .opt-prefix {
+            font-weight: 700;
+            margin-right: 8px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        /* States after selecting */
+        .q-card.answered .opt-btn {
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .q-card.answered .opt-btn.user-correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
+            opacity: 1 !important;
+            font-weight: 600;
+        }
+
+        .q-card.answered .opt-btn.user-wrong {
+            background-color: var(--wrong-bg) !important;
+            border-color: var(--wrong-border) !important;
+            color: var(--wrong-text) !important;
+            opacity: 1 !important;
+            font-weight: 600;
+        }
+
+        .q-card.answered .opt-btn.reveal-correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct-border) !important;
+            color: var(--correct-text) !important;
+            opacity: 1 !important;
+            font-weight: 600;
+        }
+
+        /* Explanations */
+        .exp-box {
+            display: none;
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            line-height: 1.45;
+        }
+
+        .q-card.answered.is-correct .exp-correct {
+            display: block;
+            background-color: var(--correct-bg);
+            border-left: 4px solid var(--correct-border);
+            color: var(--correct-text);
+        }
+
+        .q-card.answered.is-wrong .exp-wrong {
+            display: block;
+            background-color: var(--wrong-bg);
+            border-left: 4px solid var(--wrong-border);
+            color: var(--wrong-text);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="header-title">
+                <h1>ANAT 1009 Practice Exam</h1>
+                <p>100 Questions • Dr. Alex Hillar</p>
+            </div>
+            <div class="score-badge" id="score-counter">
+                Score: 0 / 0
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-bar">
+        <button class="filter-btn active" onclick="filterQuestions('all', this)">All (100)</button>
+        <button class="filter-btn" onclick="filterQuestions('lec1', this)">Lec 1: Intro (1-30)</button>
+        <button class="filter-btn" onclick="filterQuestions('lec2', this)">Lec 2: Tissues (31-65)</button>
+        <button class="filter-btn" onclick="filterQuestions('lec3', this)">Lec 3: Skeletal (66-100)</button>
+    </div>
+
+    <main id="exam-container">
+        <!-- Rendered dynamically -->
+    </main>
+
+    <script>
+        const examData = [
+            // LECTURE 1
+            { id: 1, cat: 'lec1', q: "1. (Definition) Which of the following best defines anatomy?", opts: ["The study of body functions and metabolic processes", "The study of the structure of the body including form, position, size, and relationships", "The study of disease states and pathological mechanisms", "The study of chemical bonding within biomolecules"], ans: 1, exp: "Anatomy Definition: Emphasizes structural form and physical relationships." },
+            { id: 2, cat: 'lec1', q: "2. (Definition) Physiology is primarily defined as the study of:", opts: ["The physical dimensions of organ systems", "The structural classification of skeletal bones", "The function of the body, encompassing nutrition, transport, metabolism, and movement", "The embryonic development of germ layers"], ans: 2, exp: "Physiology Definition: Focuses on dynamic body processes and mechanics." },
+            { id: 3, cat: 'lec1', q: "3. (Ordering) Arrange the following levels of structural complexity from least complex (1) to most complex (6): (1) Tissue, (2) Organism, (3) Molecule/Chemical, (4) Organ system, (5) Cell, (6) Organ.", opts: ["3, 5, 1, 6, 4, 2", "3, 1, 5, 6, 4, 2", "5, 3, 1, 4, 6, 2", "1, 3, 5, 6, 4, 2"], ans: 0, exp: "Structural Hierarchy: Chemical → Cell → Tissue → Organ → System → Organism." },
+            { id: 4, cat: 'lec1', q: "4. (True/False) The cranial cavity is a dorsal body cavity that houses and protects the brain.", opts: ["True", "False"], ans: 0, exp: "Dorsal Cavities: Cranial cavity houses the brain safely." },
+            { id: 5, cat: 'lec1', q: "5. (Multiple Choice) Which body region is located at the front of the elbow, frequently utilized for drawing venous blood?", opts: ["Carpal", "Popliteal", "Tarsal", "Antecubital"], ans: 3, exp: "Antecubital Region: Frontal elbow region used for venipuncture." },
+            { id: 6, cat: 'lec1', q: "6. (Multiple Choice) Which directional term means further away from the midline of the body?", opts: ["Medial", "Lateral", "Proximal", "Superior"], ans: 1, exp: "Directional Terminology: Lateral means away from midline." },
+            { id: 7, cat: 'lec1', q: "7. (True/False) The liver is primarily located within the right upper quadrant (RUQ) of the abdominopelvic cavity.", opts: ["True", "False"], ans: 0, exp: "Abdominal Quadrants: Liver resides predominantly in RUQ." },
+            { id: 8, cat: 'lec1', q: "8. (Multiple Choice) Which directional term describes an anatomical position closer to the head?", opts: ["Inferior", "Anterior", "Superior", "Posterior"], ans: 2, exp: "Superior Definition: Means closer to the head." },
+            { id: 9, cat: 'lec1', q: "9. (True/False) The term 'ipsilateral' refers to a structure located on the opposite side of the median line relative to another structure.", opts: ["True", "False"], ans: 1, exp: "Ipsilateral/Contralateral: Ipsilateral means same side; contralateral means opposite." },
+            { id: 10, cat: 'lec1', q: "10. (Multiple Choice) What anatomical section through the head would pass through both ears, but not the eyes or nose?", opts: ["Midsagittal (median)", "Coronal (frontal)", "Transverse (horizontal)", "Oblique"], ans: 1, exp: "Coronal Plane: Passes vertically through ears, splitting anterior/posterior." },
+            { id: 11, cat: 'lec1', q: "11. (Multiple Choice) Which anatomical region is the most proximal among the choices provided?", opts: ["Sural", "Popliteal", "Tarsal", "Femoral"], ans: 3, exp: "Proximal vs Distal: Femur (hip/thigh) is closer to attachment point than sural/tarsal." },
+            { id: 12, cat: 'lec1', q: "12. (True/False) The muscular diaphragm forms the physical boundary separating the thoracic cavity from the abdominopelvic cavity.", opts: ["True", "False"], ans: 0, exp: "Diaphragm Function: Muscular partition between thoracic and abdominal cavities." },
+            { id: 13, cat: 'lec1', q: "13. (Multiple Choice) Which anatomical term specifically refers to the lower back region?", opts: ["Cervical", "Thoracic", "Lumbar", "Sacral"], ans: 2, exp: "Lumbar Region: Lower back region important for posture support." },
+            { id: 14, cat: 'lec1', q: "14. (True/False) The appendix lies within the right lower quadrant (RLQ) near the ileocecal valve.", opts: ["True", "False"], ans: 0, exp: "Appendix Location: Appendix and ileocecal valve reside in RLQ." },
+            { id: 15, cat: 'lec1', q: "15. (Multiple Choice) What exact percentage of total body mass does fluid within the intravascular compartment (blood) represent?", opts: ["1%", "4%", "16%", "40%"], ans: 1, exp: "Intravascular Fluid: Blood represents approximately 4% of body mass." },
+            { id: 16, cat: 'lec1', q: "16. (Multiple Choice) Approximately what proportion of total body mass is accounted for by intracellular fluid (ICF)?", opts: ["20%", "40%", "60%", "80%"], ans: 1, exp: "Intracellular Fluid (ICF): Represents 40% of body mass inside cells." },
+            { id: 17, cat: 'lec1', q: "17. (True/False) Total body water accounts for approximately 60% of total body mass in a healthy adult male, varying from 45% to 75% across demographics.", opts: ["True", "False"], ans: 0, exp: "Total Body Water: 60% in healthy males, varying by muscle/adipose mass." },
+            { id: 18, cat: 'lec1', q: "18. (Multiple Choice) When a living cell is placed into a hypertonic solution, what physiological response is expected?", opts: ["The cell swells and bursts as water moves inward", "The cell shrinks as water moves out via osmosis into the higher solute concentration", "No net water movement occurs", "Solutes actively pump out of the cell without water shift"], ans: 1, exp: "Hypertonic Solution: Higher solute outside draws water out, causing cell shrinkage." },
+            { id: 19, cat: 'lec1', q: "19. (Multiple Choice) Which organelle or physiological mechanism actively forces sodium ions out of cells and potassium ions inward utilizing ATP?", opts: ["Simple diffusion across the phospholipid bilayer", "Paracellular pathway through capillary gaps", "Sodium-potassium active transport pump", "Osmotic filtration gradient"], ans: 2, exp: "Sodium-Potassium Pump: Active transport utilizing ATP against concentration gradients." },
+            { id: 20, cat: 'lec1', q: "20. (True/False) Interstitial fluid is classified as a component of extracellular fluid (ECF) and accounts for approximately 16% of total body mass.", opts: ["True", "False"], ans: 0, exp: "Interstitial Fluid: ECF portion bathing cells (16% of body mass)." },
+            { id: 21, cat: 'lec1', q: "21. (Multiple Choice) Which plane divides the human body into anterior and posterior portions?", opts: ["Sagittal plane", "Midsagittal plane", "Frontal (coronal) plane", "Transverse plane"], ans: 2, exp: "Coronal Plane: Separates anterior (front) from posterior (back)." },
+            { id: 22, cat: 'lec1', q: "22. (Multiple Choice) Which body cavity contains the pleural cavities, pericardial cavity, and mediastinum?", opts: ["Cranial cavity", "Vertebral canal", "Thoracic cavity", "Abdominal cavity"], ans: 2, exp: "Thoracic Cavity: Contains pleural, pericardial, and mediastinal spaces." },
+            { id: 23, cat: 'lec1', q: "23. (True/False) Homeostasis is defined as the maintenance of a relatively steady internal state despite continuous external environmental changes.", opts: ["True", "False"], ans: 0, exp: "Homeostasis Definition: Steady internal state maintained via feedback loops." },
+            { id: 24, cat: 'lec1', q: "24. (Multiple Choice) Which organ system is primarily responsible for external covering, protection, vitamin D synthesis, and thermoregulation?", opts: ["Skeletal system", "Integumentary system", "Nervous system", "Lymphatic system"], ans: 1, exp: "Integumentary System: Cutaneous membrane providing barrier protection." },
+            { id: 25, cat: 'lec1', q: "25. (Multiple Choice) What term describes a position closer to the surface of the body?", opts: ["Deep", "Superficial", "Proximal", "Distal"], ans: 1, exp: "Superficial Definition: Toward or at the body surface." },
+            { id: 26, cat: 'lec1', q: "26. (True/False) The anatomical position requires the subject to stand erect, face forward, upper limbs at the sides, and palms facing backward.", opts: ["True", "False"], ans: 1, exp: "Anatomical Position: Palms face forward, not backward." },
+            { id: 27, cat: 'lec1', q: "27. (Multiple Choice) Which organ is recognized as the largest internal organ of the human body?", opts: ["Brain", "Heart", "Liver", "Spleen"], ans: 2, exp: "Largest Internal Organ: Liver is the largest internal visceral organ." },
+            { id: 28, cat: 'lec1', q: "28. (Multiple Choice) Which fluid compartment constitutes the largest single water reservoir in the human body?", opts: ["Intravascular fluid", "Transcellular fluid", "Interstitial fluid", "Intracellular fluid (ICF)"], ans: 3, exp: "ICF Proportion: Intracellular fluid is the largest fluid compartment." },
+            { id: 29, cat: 'lec1', q: "29. (True/False) Negative feedback mechanisms operate to correct deviations from a set point and restore normal homeostatic balance.", opts: ["True", "False"], ans: 0, exp: "Negative Feedback: Restores variables back to normal set points." },
+            { id: 30, cat: 'lec1', q: "30. (Multiple Choice) Which term describes structures occurring on the same side of the body as another structure?", opts: ["Contralateral", "Ipsilateral", "Bilateral", "Unilateral"], ans: 1, exp: "Ipsilateral Term: Structures on the same side of the body." },
+
+            // LECTURE 2
+            { id: 31, cat: 'lec2', q: "31. (Multiple Choice) Which of the following is NOT recognized as one of the four primary tissue types in human anatomy?", opts: ["Connective tissue", "Nervous tissue", "Bone tissue", "Epithelial tissue"], ans: 2, exp: "Primary Tissues: Bone is a specialized connective tissue, not a primary tissue type." },
+            { id: 32, cat: 'lec2', q: "32. (Multiple Choice) Which characteristic is universally true regarding all epithelial tissues?", opts: ["They are highly vascularized with dense capillary networks", "They are avascular and rely on underlying connective tissue blood supply", "They possess abundant extracellular matrix surrounding isolated cells", "They lack a basement membrane"], ans: 1, exp: "Epithelial Avascularity: Relies on underlying connective tissue blood supply." },
+            { id: 33, cat: 'lec2', q: "33. (Multiple Choice) What type of tissue is depicted in standard histology slides as striated, branching cells with intercalated discs, located within the heart?", opts: ["Skeletal muscle", "Smooth muscle", "Cardiac muscle", "Dense regular connective tissue"], ans: 2, exp: "Cardiac Muscle: Branched striated fibers with intercalated discs." },
+            { id: 34, cat: 'lec2', q: "34. (Multiple Choice) Which primary tissue type is characterized by cells separated by an extensive extracellular matrix consisting of protein fibers and ground substance?", opts: ["Epithelial tissue", "Nervous tissue", "Connective tissue", "Muscle tissue"], ans: 2, exp: "Connective Tissue Matrix: Characterized by cells separated by extracellular matrix." },
+            { id: 35, cat: 'lec2', q: "35. (Ordering) Arrange the five epidermal strata from deepest (1) to most superficial (5): (1) stratum lucidum, (2) stratum corneum, (3) stratum granulosum, (4) stratum basale, (5) stratum spinosum.", opts: ["4, 5, 3, 1, 2", "4, 3, 5, 1, 2", "2, 1, 3, 5, 4", "5, 4, 3, 2, 1"], ans: 0, exp: "Epidermal Strata: Basale → Spinosum → Granulosum → Lucidum → Corneum." },
+            { id: 36, cat: 'lec2', q: "36. (Multiple Choice) Which of the following is classified as a serous membrane?", opts: ["Cutaneous membrane (skin)", "Mucous membrane lining the oral cavity", "Pericardium surrounding the heart", "Synovial membrane lining joint cavities"], ans: 2, exp: "Serous Membrane: Pericardium lines closed ventral body cavities." },
+            { id: 37, cat: 'lec2', q: "37. (Multiple Choice) What is the primary functional role of the integumentary system?", opts: ["Internal mineral storage and hematopoiesis", "Protection against external damage, pathogens, and fluid loss", "Voluntary motor locomotion", "Chemical digestion and nutrient absorption"], ans: 1, exp: "Integumentary Function: Protection against external physical and biological damage." },
+            { id: 38, cat: 'lec2', q: "38. (Multiple Choice) What is the outermost primary layer of human skin composed of keratinized stratified squamous epithelium?", opts: ["Hypodermis", "Dermis", "Epidermis", "Subcutaneous adipose layer"], ans: 2, exp: "Epidermis Definition: Outermost keratinized epithelial layer." },
+            { id: 39, cat: 'lec2', q: "39. (Multiple Choice) Which structural protein is the primary component providing tensile strength and structural support in connective tissues?", opts: ["Keratin", "Myosin", "Elastin", "Collagen"], ans: 3, exp: "Collagen Protein: Main structural protein providing tensile strength." },
+            { id: 40, cat: 'lec2', q: "40. (True/False) The plasma membrane of a human cell exhibits selective permeability, regulating molecular transit to maintain cellular homeostasis.", opts: ["True", "False"], ans: 0, exp: "Cell Membrane Selectivity: Regulates molecular transit maintaining homeostasis." },
+            { id: 41, cat: 'lec2', q: "41. (True/False) Melanin is a protective pigment synthesized by melanocytes in the stratum basale that absorbs harmful UV radiation.", opts: ["True", "False"], ans: 0, exp: "Melanin Function: UV radiation absorption protecting deeper cells." },
+            { id: 42, cat: 'lec2', q: "42. (True/False) The pleurae surrounding the lungs are classified as mucous membranes rather than serous membranes.", opts: ["True", "False"], ans: 1, exp: "Pleura Classification: Pleurae are serous membranes, not mucous membranes." },
+            { id: 43, cat: 'lec2', q: "43. (Multiple Choice) Where within the cutaneous structure are sudoriferous (sweat) and sebaceous (oil) glands primarily anchored?", opts: ["Within the avascular epidermis", "Within the reticular and papillary regions of the dermis", "Within the deep hypodermal muscle fascia", "Directly upon the stratum corneum surface"], ans: 1, exp: "Skin Glands: Dermal location of sebaceous and sudoriferous glands." },
+            { id: 44, cat: 'lec2', q: "44. (Multiple Choice) Which estimate is closest to the total number of cells in an adult human body?", opts: ["50 million", "250 billion", "50 trillion", "300 trillion"], ans: 2, exp: "Total Body Cells: Estimated at approximately 50 trillion cells in adults." },
+            { id: 45, cat: 'lec2', q: "45. (Multiple Choice) Which epithelial tissue subtype lines closed body cavities such as blood vessels and air sacs, specialized for rapid filtration and diffusion?", opts: ["Simple columnar epithelium", "Stratified squamous epithelium", "Simple squamous epithelium", "Pseudostratified ciliated columnar epithelium"], ans: 2, exp: "Simple Squamous: Specialized for rapid diffusion in air sacs and vessels." },
+            { id: 46, cat: 'lec2', q: "46. (Multiple Choice) What specialized cells within mucous membranes secrete lubricating mucus onto the apical epithelial surface?", opts: ["Fibroblasts", "Goblet cells", "Osteocytes", "Melanocytes"], ans: 1, exp: "Goblet Cells: Mucus-secreting cells embedded in columnar epithelia." },
+            { id: 47, cat: 'lec2', q: "47. (True/False) Transitional epithelium (urothelium) lines hollow urinary organs and changes its morphological appearance between squamous and cuboidal as organs stretch.", opts: ["True", "False"], ans: 0, exp: "Transitional Epithelium: Accommodates stretch in urinary bladder and ureters." },
+            { id: 48, cat: 'lec2', q: "48. (Multiple Choice) Which connective tissue cell type synthesizes and secretes protein fibers and ground substance of the extracellular matrix?", opts: ["Chondrocyte", "Osteocyte", "Fibroblast", "Adipocyte"], ans: 2, exp: "Fibroblasts: Synthesize extracellular matrix fibers and ground substance." },
+            { id: 49, cat: 'lec2', q: "49. (Multiple Choice) Which cartilage type contains dense collagen fibers and forms the intervertebral discs to withstand high compressive stress?", opts: ["Hyaline cartilage", "Elastic cartilage", "Fibrocartilage", "Articular cartilage"], ans: 2, exp: "Fibrocartilage: Withstands strong compression in intervertebral discs." },
+            { id: 50, cat: 'lec2', q: "50. (True/False) Hyaline cartilage is avascular and lacks nerves within its extracellular matrix, making repair processes exceptionally slow.", opts: ["True", "False"], ans: 0, exp: "Cartilage Avascularity: Lacks blood vessels and nerves, resulting in slow healing." },
+            { id: 51, cat: 'lec2', q: "51. (Multiple Choice) What type of membrane lines joint cavities, bursae, and tendon sheaths, secreting a plasma-derived lubricating fluid?", opts: ["Mucous membrane", "Serous membrane", "Cutaneous membrane", "Synovial membrane"], ans: 3, exp: "Synovial Membranes: Line joint cavities with connective tissue secreting synovial fluid." },
+            { id: 52, cat: 'lec2', q: "52. (Multiple Choice) Which epidermal layer is present exclusively in thick skin (palms and soles) and appears clear under microscopy?", opts: ["Stratum basale", "Stratum spinosum", "Stratum lucidum", "Stratum corneum"], ans: 2, exp: "Stratum Lucidum: Clear layer present only in thick skin of palms/soles." },
+            { id: 53, cat: 'lec2', q: "53. (True/False) The hypodermis (subcutaneous layer) is an integral structural layer of the true skin (integument).", opts: ["True", "False"], ans: 1, exp: "Hypodermis Status: Subcutaneous layer is below dermis, not part of true skin." },
+            { id: 54, cat: 'lec2', q: "54. (Multiple Choice) Which cellular adaptation on apical epithelial surfaces actively moves extracellular substances such as mucus along respiratory pathways?", opts: ["Microvilli", "Cilia", "Flagella", "Stereocilia"], ans: 1, exp: "Cilia Function: Moves extracellular mucus along respiratory tracts." },
+            { id: 55, cat: 'lec2', q: "55. (Multiple Choice) What specific skin condition results from the accumulation of bile pigments in body tissues due to impaired liver function?", opts: ["Cyanosis", "Erythema", "Jaundice", "Albinism"], ans: 2, exp: "Jaundice Definition: Bile pigment accumulation due to liver dysfunction." },
+            { id: 56, cat: 'lec2', q: "56. (True/False) Sebaceous glands produce oily sebum via ducts typically associated with hair follicles, exerting bactericidal effects.", opts: ["True", "False"], ans: 0, exp: "Sebaceous Glands: Secrete sebum associated with hair follicles." },
+            { id: 57, cat: 'lec2', q: "57. (Multiple Choice) Which dermal layer consists of areolar connective tissue with dermal papillae that form unique epidermal ridges (fingerprints)?", opts: ["Reticular dermis", "Papillary dermis", "Hypodermis", "Stratum basale"], ans: 1, exp: "Papillary Dermis: Forms fingerprints via dermal papillae projections." },
+            { id: 58, cat: 'lec2', q: "58. (Multiple Choice) What type of muscle tissue is non-striated, involuntary, and located within the walls of hollow internal organs such as blood vessels and the digestive tract?", opts: ["Skeletal muscle", "Cardiac muscle", "Smooth muscle", "Neural muscle"], ans: 2, exp: "Smooth Muscle: Involuntary non-striated muscle in hollow organ walls." },
+            { id: 59, cat: 'lec2', q: "59. (True/False) Neurons in nervous tissue utilize long axonal processes to conduct electrical impulses across significant anatomical distances.", opts: ["True", "False"], ans: 0, exp: "Nervous Tissue Axons: Long processes conducting electrical impulses over distances." },
+            { id: 60, cat: 'lec2', q: "60. (Multiple Choice) What is the primary function of glial (neuroglial) cells in nervous tissue?", opts: ["Direct generation of action potentials", "Support, insulation, and protection of neurons", "Contraction of vascular smooth muscle", "Secretion of synovial fluid"], ans: 1, exp: "Glial Cells: Support, insulate, and protect neurons." },
+            { id: 61, cat: 'lec2', q: "61. (Multiple Choice) Which epidermal layer is the deepest site of active cellular division (mitosis)?", opts: ["Stratum corneum", "Stratum granulosum", "Stratum basale", "Stratum lucidum"], ans: 2, exp: "Stratum Basale Mitosis: Deepest layer undergoing rapid cell division." },
+            { id: 62, cat: 'lec2', q: "62. (True/False) The cutaneous membrane is classified as a dry membrane exposed directly to the external environment.", opts: ["True", "False"], ans: 0, exp: "Cutaneous Membrane: Dry outer membrane exposed directly to air." },
+            { id: 63, cat: 'lec2', q: "63. (Multiple Choice) Which connective tissue stores triglycerides within specialized cells and provides thermal insulation and shock absorption?", opts: ["Dense regular connective tissue", "Adipose tissue", "Reticular connective tissue", "Hyaline cartilage"], ans: 1, exp: "Adipose Tissue: Stores fat, providing insulation and cushioning." },
+            { id: 64, cat: 'lec2', q: "64. (Multiple Choice) What specific cell type produces cartilage extracellular matrix in mature cartilage structures?", opts: ["Osteoblast", "Fibroblast", "Chondrocyte", "Monocyte"], ans: 2, exp: "Chondrocytes: Mature cells maintaining cartilage extracellular matrix." },
+            { id: 65, cat: 'lec2', q: "65. (True/False) Serous membranes possess a visceral layer that covers organs and a parietal layer that lines the body cavity walls, with lubricating serous fluid between them.", opts: ["True", "False"], ans: 0, exp: "Serous Layers: Visceral and parietal layers enclose lubricating fluid." },
+
+            // LECTURE 3
+            { id: 66, cat: 'lec3', q: "66. (Multiple Choice) How are osteoclasts biologically formed during bone development and remodeling?", opts: ["Directly from mitotic division of osteocytes", "Directly from osteoprogenitor cells", "By the fusion of monocyte white blood cells", "By direct ossification of hyaline cartilage chondrocytes"], ans: 2, exp: "Osteoclast Formation: Formed by the fusion of monocyte white blood cells." },
+            { id: 67, cat: 'lec3', q: "67. (Multiple Choice) Which of the following is considered a secondary spinal curvature?", opts: ["Thoracic curve", "Sacral curve", "Cervical curve", "Pelvic curve"], ans: 2, exp: "Secondary Curvatures: Cervical and lumbar curves develop postnatally." },
+            { id: 68, cat: 'lec3', q: "68. (Multiple Choice) Which anatomical suture primarily separates the parietal bone from the temporal bone?", opts: ["Coronal suture", "Squamous suture", "Lambdoid suture", "Sagittal suture"], ans: 1, exp: "Squamous Suture: Separates parietal and temporal bones." },
+            { id: 69, cat: 'lec3', q: "69. (True/False) During embryonic and fetal development, long bones initially form primarily through intramembranous ossification.", opts: ["True", "False"], ans: 1, exp: "Ossification Origin: Most long bones form via endochondral ossification, not intramembranous." },
+            { id: 70, cat: 'lec3', q: "70. (Multiple Choice) Ribs that attach indirectly to the sternum via the costal cartilage of the seventh rib are classified as:", opts: ["True ribs (1-7)", "False ribs (8-10)", "Floating ribs (11-12)", "Vertebrochondral ribs"], ans: 1, exp: "False Ribs: Ribs 8-10 attach indirectly via costal cartilage #7." },
+            { id: 71, cat: 'lec3', q: "71. (True/False) Intervertebral discs are classified structurally as synovial joints.", opts: ["True", "False"], ans: 1, exp: "Disc Classification: Intervertebral discs are cartilaginous (symphyses), not synovial." },
+            { id: 72, cat: 'lec3', q: "72. (True/False) Spongy bone tissue is organized into functional structural units called osteons (Haversian systems).", opts: ["True", "False"], ans: 1, exp: "Spongy Bone Histology: Spongy bone consists of trabeculae, lacking osteons." },
+            { id: 73, cat: 'lec3', q: "73. (True/False) The medullary cavity of an adult long bone contains yellow bone marrow primarily dedicated to fat storage.", opts: ["True", "False"], ans: 0, exp: "Yellow Marrow: Adult medullary cavities store adipose tissue (yellow marrow)." },
+            { id: 74, cat: 'lec3', q: "74. (Multiple Choice) Which anatomical feature distinctly distinguishes a female human pelvis from a male pelvis?", opts: ["A heart-shaped pelvic brim", "A pubic arch greater than 90 degrees", "A heavier, thicker bone structure", "A narrow, deep false pelvis"], ans: 1, exp: "Female Pelvis: Pubic arch greater than 90 degrees and wide pelvic inlet." },
+            { id: 75, cat: 'lec3', q: "75. (Multiple Choice) Where is articular cartilage located on a typical long bone?", opts: ["Within the medullary cavity", "Along the diaphysis shaft", "On the epiphyses articulating at joints", "Within the central Haversian canals"], ans: 2, exp: "Articular Cartilage: Covers articulating epiphyses at joint surfaces." },
+            { id: 76, cat: 'lec3', q: "76. (True/False) The parietal bones of the skull are classic examples of flat bones formed via intramembranous ossification.", opts: ["True", "False"], ans: 0, exp: "Flat Bones: Skull bones form via intramembranous ossification." },
+            { id: 77, cat: 'lec3', q: "77. (Multiple Choice) Where are mature osteocytes located within compact bone tissue?", opts: ["Within central Haversian canals", "Within lacunae embedded in the calcified matrix", "Within perforating Volkmann's canals", "Along the external periosteum surface"], ans: 1, exp: "Osteocyte Location: Reside within lacunae embedded in calcified bone matrix." },
+            { id: 78, cat: 'lec3', q: "78. (Multiple Choice) Exactly how many bones constitute the adult human skeletal system?", opts: ["126", "206", "260", "320"], ans: 1, exp: "Skeletal Count: Standard adult human skeleton contains 206 bones." },
+            { id: 79, cat: 'lec3', q: "79. (Multiple Choice) Which of the following skeletal elements are all classified as part of the axial skeleton?", opts: ["Clavicle, scapula, humerus", "Hyoid bone, atlas, sternum", "Coxal bone, femur, patella", "Radius, ulna, carpals"], ans: 1, exp: "Axial Skeleton: Hyoid, atlas, and sternum belong to axial skeleton." },
+            { id: 80, cat: 'lec3', q: "80. (Multiple Choice) How many total vertebrae are represented by the sacrum and coccyx combined prior to adult fusion?", opts: ["5", "7", "9", "12"], ans: 2, exp: "Sacrum/Coccyx Totals: 5 sacral + 4 coccygeal vertebrae prior to fusion." },
+            { id: 81, cat: 'lec3', q: "81. (Multiple Choice) Which anatomical structure has absolutely no functional relationship with any vertebrae?", opts: ["Dens (odontoid process)", "Vertebral body", "Foramen magnum", "Spinous process"], ans: 2, exp: "Foramen Magnum: Located in occipital bone of skull, not part of vertebrae." },
+            { id: 82, cat: 'lec3', q: "82. (Multiple Choice) Which of the following represents an example of a cartilaginous joint?", opts: ["Intervertebral disc", "Temporomandibular joint", "Squamous suture", "Elbow joint"], ans: 0, exp: "Cartilaginous Joint: Intervertebral discs form symphysis joints." },
+            { id: 83, cat: 'lec3', q: "83. (Multiple Choice) Which bone cell type synthesizes and secretes organic osteoid and initiates calcification?", opts: ["Osteoclast", "Osteocyte", "Osteoblast", "Chondroblast"], ans: 2, exp: "Osteoblasts: Build bone by secreting osteoid matrix." },
+            { id: 84, cat: 'lec3', q: "84. (True/False) Compact bone forms the external layer of all bones and provides protection and stress resistance through repeating osteon systems.", opts: ["True", "False"], ans: 0, exp: "Compact Bone Structure: Forms external protective layer utilizing osteons." },
+            { id: 85, cat: 'lec3', q: "85. (Multiple Choice) What network of tiny canals connects osteocyte lacunae to the central canal for nutrient and waste exchange in compact bone?", opts: ["Volkmann's canals", "Canaliculi", "Trabeculae", "Medullary cavities"], ans: 1, exp: "Canaliculi: Microscopic canals connecting lacunae for nutrient transport." },
+            { id: 86, cat: 'lec3', q: "86. (Multiple Choice) Spongy bone is composed of a latticework of thin bony plates called:", opts: ["Osteons", "Lamellae", "Trabeculae", "Epiphyses"], ans: 2, exp: "Trabeculae: Spongy bone matrix arranged in a latticework of thin plates." },
+            { id: 87, cat: 'lec3', q: "87. (True/False) Endochondral ossification replaces a pre-existing hyaline cartilage model with bone tissue.", opts: ["True", "False"], ans: 0, exp: "Endochondral Ossification: Replaces pre-existing hyaline cartilage model." },
+            { id: 88, cat: 'lec3', q: "88. (Multiple Choice) What anatomical structure allows longitudinal growth in length during childhood and adolescence in long bones?", opts: ["Periosteum", "Epiphyseal plate (growth plate)", "Endosteum", "Articular cartilage"], ans: 1, exp: "Epiphyseal Plate: Responsible for longitudinal bone growth in height." },
+            { id: 89, cat: 'lec3', q: "89. (Multiple Choice) Which bone shape category includes the wrist (carpal) and ankle (tarsal) bones?", opts: ["Long bones", "Flat bones", "Short bones", "Irregular bones"], ans: 2, exp: "Short Bones: Cube-shaped bones including carpals and tarsals." },
+            { id: 90, cat: 'lec3', q: "90. (True/False) Sesamoid bones develop within tendons subjected to high mechanical stress and friction, such as the patella.", opts: ["True", "False"], ans: 0, exp: "Sesamoid Bones: Develop within tendons experiencing friction, like the patella." },
+            { id: 91, cat: 'lec3', q: "91. (Multiple Choice) How many bones comprise the appendicular skeleton in an adult human?", opts: ["80", "126", "206", "60"], ans: 1, exp: "Appendicular Count: Comprises 126 bones of limbs and girdles." },
+            { id: 92, cat: 'lec3', q: "92. (Multiple Choice) Which bone of the upper limb is positioned on the lateral (thumb) side of the forearm?", opts: ["Ulna", "Radius", "Humerus", "Clavicle"], ans: 1, exp: "Radius Position: Located on the lateral (thumb) side of forearm." },
+            { id: 93, cat: 'lec3', q: "93. (True/False) The hyoid bone is unique because it is the only free-floating bone in the body not directly articulated with any other bone.", opts: ["True", "False"], ans: 0, exp: "Hyoid Anatomy: Free-floating bone supporting the tongue, lacking bony articulations." },
+            { id: 94, cat: 'lec3', q: "94. (Multiple Choice) What are the fontanels on an infant skull?", opts: ["Prematurely fused bony sutures", "Areas of incomplete ossification (soft spots) allowing birth compression", "Cartilaginous joints of the mandible", "Sinus cavities within facial bones"], ans: 1, exp: "Fontanels: Unossified membranous soft spots allowing birth molding." },
+            { id: 95, cat: 'lec3', q: "95. (Multiple Choice) Which cervical vertebra is known as the atlas (C1) and is specialized to support the weight of the skull?", opts: ["Axis (C2)", "Atlas (C1)", "Vertebra prominens (C7)", "Thoracic vertebra 1 (T1)"], ans: 1, exp: "Atlas (C1): Supports the skull directly without a vertebral body." },
+            { id: 96, cat: 'lec3', q: "96. (True/False) The dens (odontoid process) projecting from the axis (C2) allows for rotational movement of the head (saying 'no').", opts: ["True", "False"], ans: 0, exp: "Axis Dens: Odontoid process allows head rotation (pivot joint)." },
+            { id: 97, cat: 'lec3', q: "97. (Multiple Choice) How many pairs of true ribs attach directly to the sternum via their own costal cartilage?", opts: ["3 pairs", "5 pairs", "7 pairs", "12 pairs"], ans: 2, exp: "True Ribs: Ribs 1-7 attach directly to sternum via costal cartilage." },
+            { id: 98, cat: 'lec3', q: "98. (Multiple Choice) What term designates ribs 11 and 12, which lack any anterior attachment to the sternum?", opts: ["True ribs", "False ribs", "Floating ribs", "Costal ribs"], ans: 2, exp: "Floating Ribs: Ribs 11-12 lack sternal attachment." },
+            { id: 99, cat: 'lec3', q: "99. (True/False) Bursae are synovial fluid-filled sacs that cushion structures such as tendons, muscles, and bones, reducing friction across joints.", opts: ["True", "False"], ans: 0, exp: "Bursae Function: Synovial sacs reducing friction across joints." },
+            { id: 100, cat: 'lec3', q: "100. (Multiple Choice) Which lower limb bone is the heaviest, strongest, and longest bone in the human body?", opts: ["Tibia", "Fibula", "Femur", "Patella"], ans: 2, exp: "Femur Anatomy: Longest, strongest, and heaviest weight-bearing bone." }
+        ];
+
+        let answeredMap = new Map(); // tracks item id -> { selected, correct }
+
+        function renderExam(filter = 'all') {
+            const container = document.getElementById('exam-container');
+            container.innerHTML = '';
+
+            const letters = ['A', 'B', 'C', 'D'];
+
+            examData.forEach(item => {
+                if (filter !== 'all' && item.cat !== filter) return;
+
+                const card = document.createElement('div');
+                card.className = 'q-card';
+                card.id = `qcard-${item.id}`;
+
+                const userRecord = answeredMap.get(item.id);
+                if (userRecord) {
+                    card.classList.add('answered');
+                    if (userRecord.isCorrect) {
+                        card.classList.add('is-correct');
+                    } else {
+                        card.classList.add('is-wrong');
+                    }
+                }
+
+                let optionsHTML = '';
+                item.opts.forEach((optText, index) => {
+                    let extraClass = '';
+                    if (userRecord) {
+                        if (index === item.ans) {
+                            extraClass = userRecord.isCorrect ? 'user-correct' : 'reveal-correct';
+                        } else if (index === userRecord.selected && !userRecord.isCorrect) {
+                            extraClass = 'user-wrong';
+                        }
+                    }
+
+                    optionsHTML += `
+                        <button class="opt-btn ${extraClass}" onclick="handleSelect(${item.id}, ${index})">
+                            <span class="opt-prefix">${letters[index]}.</span>
+                            <span>${optText}</span>
+                        </button>
+                    `;
+                });
+
+                const correctLetter = letters[item.ans];
+
+                card.innerHTML = `
+                    <div class="q-header">
+                        <span class="q-num">Question ${item.id}</span>
+                        <span class="q-cat">${item.cat.toUpperCase()}</span>
+                    </div>
+                    <div class="q-text">${item.q}</div>
+                    <div class="opt-list">
+                        ${optionsHTML}
+                    </div>
+                    <div class="exp-box exp-correct">✓ <strong>Correct!</strong> ${item.exp}</div>
+                    <div class="exp-box exp-wrong">✗ <strong>Incorrect. Correct Answer: ${correctLetter}</strong><br>${item.exp}</div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function handleSelect(questionId, selectedIndex) {
+            if (answeredMap.has(questionId)) return; // prevent re-answering
+
+            const qData = examData.find(q => q.id === questionId);
+            if (!qData) return;
+
+            const isCorrect = (selectedIndex === qData.ans);
+            answeredMap.set(questionId, { selected: selectedIndex, isCorrect: isCorrect });
+
+            // Re-render specific question card
+            const card = document.getElementById(`qcard-${questionId}`);
+            if (card) {
+                card.classList.add('answered');
+                card.classList.add(isCorrect ? 'is-correct' : 'is-wrong');
+
+                const btns = card.querySelectorAll('.opt-btn');
+                btns.forEach((btn, idx) => {
+                    if (idx === qData.ans) {
+                        btn.classList.add(isCorrect ? 'user-correct' : 'reveal-correct');
+                    } else if (idx === selectedIndex && !isCorrect) {
+                        btn.classList.add('user-wrong');
+                    }
+                });
+            }
+
+            updateScore();
+        }
+
+        function updateScore() {
+            let totalAnswered = answeredMap.size;
+            let totalCorrect = 0;
+
+            answeredMap.forEach(val => {
+                if (val.isCorrect) totalCorrect++;
+            });
+
+            const scoreElem = document.getElementById('score-counter');
+            if (totalAnswered === 0) {
+                scoreElem.innerText = `Score: 0 / 0`;
+            } else {
+                const percentage = Math.round((totalCorrect / totalAnswered) * 100);
+                scoreElem.innerText = `Score: ${totalCorrect} / ${totalAnswered} (${percentage}%)`;
+            }
+        }
+
+        function filterQuestions(category, btnElem) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            if (btnElem) btnElem.classList.add('active');
+            renderExam(category);
+        }
+
+        // Initial launch
+        renderExam('all');
+    </script>
+</body>
+</html>
