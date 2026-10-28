@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anatomy & Physiology Part 2 Practice Exam</title>
+  <style>
+    :root {
+        --primary: #0f172a;
+        --accent: #2563eb;
+        --bg: #f8fafc;
+        --card-bg: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --correct-border: #16a34a;
+        --correct-bg: #f0fdf4;
+        --correct-text: #15803d;
+        --wrong-border: #dc2626;
+        --wrong-bg: #fef2f2;
+        --wrong-text: #b91c1c;
+        --partial-border: #d97706;
+        --partial-bg: #fffbeb;
+        --partial-text: #92400e;
+        --border-color: #e2e8f0;
+        --selected-border: #93c5fd;
+        --selected-bg: #eff6ff;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg);
+        color: var(--text-main);
+        line-height: 1.5;
+        padding-bottom: 60px;
+    }
+
+    header {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--primary);
+        color: #ffffff;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+        padding: 12px 16px;
+    }
+
+    .header-content {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .header-title {
+        min-width: 0;
+    }
+
+    .header-title h1 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .header-title p {
+        font-size: 0.75rem;
+        color: #94a3b8;
+    }
+
+    .score-badge {
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .nav-bar {
+        max-width: 800px;
+        margin: 16px auto 0;
+        padding: 0 16px;
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .nav-bar::-webkit-scrollbar { display: none; }
+
+    .filter-btn,
+    .reset-btn {
+        background: #ffffff;
+        border: 1px solid var(--border-color);
+        padding: 8px 14px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+    }
+
+    .filter-btn:hover,
+    .reset-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    .filter-btn.active {
+        background: var(--accent);
+        color: #ffffff;
+        border-color: var(--accent);
+    }
+
+    main {
+        max-width: 800px;
+        margin: 16px auto;
+        padding: 0 16px;
+    }
+
+    .q-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .q-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .q-num {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .q-cat {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        background: #f1f5f9;
+        padding: 2px 8px;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+
+    .q-text {
+        font-size: 0.98rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 16px;
+        line-height: 1.45;
+    }
+
+    .opt-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .opt-btn {
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+        padding: 12px 14px;
+        border: 1.5px solid var(--border-color);
+        border-radius: 10px;
+        background: #ffffff;
+        color: var(--text-main);
+        font-size: 0.92rem;
+        font-weight: 500;
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
+    }
+
+    .opt-btn:hover:not(:disabled) {
+        border-color: #cbd5e1;
+        background: #f8fafc;
+    }
+
+    .opt-btn:active:not(:disabled) { background-color: #f1f5f9; }
+
+    .opt-prefix {
+        font-weight: 700;
+        margin-right: 8px;
+        color: var(--text-muted);
+        flex-shrink: 0;
+    }
+
+    .opt-btn.selected {
+        border-color: var(--selected-border);
+        background: var(--selected-bg);
+        color: #1d4ed8;
+    }
+
+    .q-card.answered .opt-btn {
+        cursor: default;
+        pointer-events: none;
+        opacity: 0.6;
+    }
+
+    .q-card.answered .opt-btn.user-correct,
+    .q-card.answered .opt-btn.reveal-correct {
+        background-color: var(--correct-bg) !important;
+        border-color: var(--correct-border) !important;
+        color: var(--correct-text) !important;
+        opacity: 1 !important;
+        font-weight: 600;
+    }
+
+    .q-card.answered .opt-btn.user-wrong {
+        background-color: var(--wrong-bg) !important;
+        border-color: var(--wrong-border) !important;
+        color: var(--wrong-text) !important;
+        opacity: 1 !important;
+        font-weight: 600;
+    }
+
+    .submit-q-btn {
+        margin-top: 14px;
+        padding: 9px 14px;
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        background: var(--accent);
+        color: #ffffff;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.15s ease, transform 0.1s ease;
+    }
+
+    .submit-q-btn:hover:not(:disabled) { opacity: 0.92; }
+    .submit-q-btn:active:not(:disabled) { transform: scale(0.98); }
+    .submit-q-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .feedback-box {
+        display: none;
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-size: 0.88rem;
+        line-height: 1.45;
+    }
+
+    .feedback-box.correct {
+        background-color: var(--correct-bg);
+        border-left: 4px solid var(--correct-border);
+        color: var(--correct-text);
+    }
+
+    .feedback-box.incorrect {
+        background-color: var(--wrong-bg);
+        border-left: 4px solid var(--wrong-border);
+        color: var(--wrong-text);
+    }
+
+    .feedback-box.partial {
+        background-color: var(--partial-bg);
+        border-left: 4px solid var(--partial-border);
+        color: var(--partial-text);
+    }
+
+    .feedback-title { font-weight: 700; margin-bottom: 4px; }
+    .explanation { margin-top: 4px; color: inherit; }
+
+    @media (max-width: 640px) {
+        header { padding: 10px 12px; }
+        .header-title h1 { font-size: 1rem; }
+        .header-title p { font-size: 0.7rem; }
+        .score-badge { padding: 5px 10px; font-size: 0.8rem; }
+        .nav-bar { padding: 0 12px; margin-top: 12px; }
+        main { margin-top: 12px; padding: 0 12px; }
+        .q-card { padding: 16px; }
+        .q-text { font-size: 0.95rem; }
+        .opt-btn { font-size: 0.9rem; padding: 11px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="header-title">
+                <h1>Anatomy and Physiology Part 2 Exam Practice</h1>
+                <p id="header-subtitle">135 Questions</p>
+            </div>
+            <div class="score-badge" id="score-counter">
+                Grade: 0%
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-bar" id="navTabs">
+        <button class="filter-btn active" data-lec="all" type="button">All (135)</button>
+        <button class="filter-btn" data-lec="1" type="button">Lec 1: Muscular System (30)</button>
+        <button class="filter-btn" data-lec="2" type="button">Lec 2: Nervous System P1 (30)</button>
+        <button class="filter-btn" data-lec="3" type="button">Lec 3: Nervous System P2 (30)</button>
+        <button class="filter-btn" data-lec="4" type="button">Lec 4: Respiratory &amp; Acid-Base (45)</button>
+        <button class="reset-btn" id="resetBtn" type="button">Reset</button>
+    </div>
+
+    <main id="questionsContainer"></main>
+
+    <script>
+    const questionBank = [
+      // ==========================================
+      // LECTURE 1: MUSCULAR SYSTEM (30 Qs: 20 MCQ, 10 SATA)
+      // ==========================================
+      {
+        lec: 1, type: "sata",
+        text: "Which of the following represent major physiological functions of skeletal muscle tissue? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Generating heat as a byproduct of metabolic activity", correct: true },
+          { text: "Maintaining posture and body position stability", correct: true },
+          { text: "Producing body movements via traction on the skeleton", correct: true },
+          { text: "Storing energy reserves in the form of glycogen", correct: true },
+          { text: "Secreting respiratory mucus to humidify foreign particles", correct: false }
+        ],
+        explanation: "Skeletal muscle functions include heat generation, posture maintenance, body movement, protection, and glycogen storage. Mucus secretion is done by epithelial goblet cells."
+      },
+      {
+        lec: 1, type: "sata",
+        text: "Which histological features characterize cardiac muscle tissue under microscopic examination? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Presence of intercalated discs with gap junctions and desmosomes", correct: true },
+          { text: "Branched cellular arrangement with single or double central nuclei", correct: true },
+          { text: "Visible striations resulting from organized sarcomeres", correct: true },
+          { text: "Involuntary functional control regulated by pacemaker cells", correct: true },
+          { text: "Spindle-shaped cells completely lacking T-tubules", correct: false }
+        ],
+        explanation: "Cardiac muscle cells are striated, branched, involuntary, single/double nucleated, and joined by intercalated discs. Spindle-shaped cells describe smooth muscle."
+      },
+      {
+        lec: 1, type: "sata",
+        text: "Which connective tissue coverings of a skeletal muscle organ are correctly matched with their anatomical locations? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Epimysium surrounds the entire outer skeletal muscle organ", correct: true },
+          { text: "Perimysium wraps around bundles of muscle fibers called fascicles", correct: true },
+          { text: "Endomysium surrounds each individual skeletal muscle fiber (cell)", correct: true },
+          { text: "Tendons are dense regular connective tissue continuations of these sheaths", correct: true },
+          { text: "Endomysium directly covers the outer surface of bone periosteum", correct: false }
+        ],
+        explanation: "Epimysium wraps the whole muscle, perimysium wraps fascicles, and endomysium wraps individual cells. Tendons anchor epimysium/perimysium to bone."
+      },
+      {
+        lec: 1, type: "sata",
+        text: "Which microscopic components are present inside a single skeletal muscle fiber? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Sarcolemma acting as the plasma membrane of the muscle cell", correct: true },
+          { text: "Sarcoplasmic reticulum storing and releasing calcium ions", correct: true },
+          { text: "Transverse (T) tubules extending from the sarcolemma into the cell interior", correct: true },
+          { text: "Myoglobin binding and storing oxygen within the sarcoplasm", correct: true },
+          { text: "Intercalated discs joining adjacent fibers end-to-end", correct: false }
+        ],
+        explanation: "Skeletal muscle cells contain a sarcolemma, sarcoplasmic reticulum, T-tubules, and myoglobin. Intercalated discs exist only in cardiac muscle."
+      },
+      {
+        lec: 1, type: "sata",
+        text: "During the sliding filament mechanism of skeletal muscle contraction, which events occur within the sarcomere? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Myosin heads bind to exposed binding sites on actin filaments", correct: true },
+          { text: "Thin filaments slide inward toward the M-line of the sarcomere", correct: true },
+          { text: "The distance between adjacent Z-discs shortens", correct: true },
+          { text: "The H-zone and I-band narrow during contraction", correct: true },
+          { text: "Individual thick and thin protein filaments shorten in absolute physical length", correct: false }
+        ],
+        explanation: "Filaments do not shorten in length; they slide past each other, which pulls the Z-discs closer together and narrows the I-band and H-zone."
+      },
+      {
+        lec: 1, type: "sata",
+        text: "Which steps are necessary for a skeletal muscle fiber to relax after contraction? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Breakdown of acetylcholine (ACh) by acetylcholinesterase in the synaptic cleft", correct: true },
+          { text: "Active pumping of calcium ions back into the sarcoplasmic reticulum", correct: true },
+          { text: "Troponin-tropomyosin complex sliding back to cover myosin-binding sites on actin", correct: true },
+          { text: "Cessation of action potentials along the motor neuron axon", correct: true },
+          { text: "Detachment of epimysium from the underlying deep fascia", correct: false }
+        ],
+        explanation: "Relaxation requires clearing ACh, stopping action potentials, active reuptake of calcium into the SR (via ATP), and re-masking actin binding sites."
+      },
+      {
+        lec: 1, type: "sata",
+        text: "Which structural and physiological traits accurately describe smooth muscle tissue? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Spindle-shaped (fusiform) cells with a single central nucleus", correct: true },
+          { text: "Non-striated appearance due to non-sarcomeric arrangement of myofilaments", correct: true },
+          { text: "Involuntary contraction located in walls of blood vessels and visceral organs", correct: true },
+          { text: "Slower contraction and relaxation speeds compared to skeletal muscle", correct: true },
+          { text: "Dependence on T-tubule triads to release internal calcium stores", correct: false }
+        ],
+        explanation: "Smooth muscle cells are spindle-shaped, non-striated, involuntary, slow-contracting, and lack T-tubules."
+      },
+      {
+        lec: 1, type: "sata",
+        text: "Regarding ATP production and energy metabolism in skeletal muscle, which statements are true? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Creatine phosphate provides rapid ATP generation for short bursts (~15 seconds)", correct: true },
+          { text: "Anaerobic glycolysis yields ATP rapidly without oxygen, producing lactic acid", correct: true },
+          { text: "Aerobic respiration in mitochondria generates the majority of ATP during sustained exertion", correct: true },
+          { text: "Myoglobin provides an intracellular oxygen reserve for mitochondrial respiration", correct: true },
+          { text: "Skeletal muscle fibers store enough pre-formed ATP to fuel hours of continuous maximal contraction", correct: false }
+        ],
+        explanation: "Pre-stored ATP lasts only a few seconds; fibers must regenerate ATP via creatine phosphate, glycolysis, and aerobic respiration."
+      },
+      {
+        lec: 1, type: "sata",
+        text: "Which features correctly define a motor unit in skeletal muscle physiology? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Consists of a single somatic motor neuron and all the muscle fibers it innervates", correct: true },
+          { text: "Small motor units (few fibers per nerve) control precise fine motor movements", correct: true },
+          { text: "Large motor units (hundreds of fibers per nerve) generate powerful coarse contractions", correct: true },
+          { text: "All muscle fibers within a single motor unit contract simultaneously when stimulated", correct: true },
+          { text: "A single motor unit contains both cardiac and skeletal muscle fibers mixed together", correct: false }
+        ],
+        explanation: "A motor unit is one somatic motor neuron plus all muscle fibers it innervates. Fine movements have small motor units; large movements have big motor units."
+      },
+      {
+        lec: 1, type: "sata",
+        text: "Which structural events occur at the neuromuscular junction (NMJ) during excitation? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Voltage-gated calcium channels open in the axon terminal upon action potential arrival", correct: true },
+          { text: "Acetylcholine (ACh) is released into the synaptic cleft via exocytosis", correct: true },
+          { text: "ACh binds to ligand-gated ion channel receptors on the motor end plate", correct: true },
+          { text: "Sodium ion influx into the sarcoplasm depolarizes the motor end plate membrane", correct: true },
+          { text: "Potassium ions rush through T-tubules to directly synthesize troponin", correct: false }
+        ],
+        explanation: "Axon terminal Ca2+ entry triggers ACh exocytosis. ACh binds to motor end plate receptors, opening Na+ channels and depolarizing the sarcolemma."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "What is the specialized plasma membrane of a skeletal muscle fiber called?",
+        options: [
+          { text: "Sarcolemma", correct: true },
+          { text: "Sarcoplasm", correct: false },
+          { text: "Perimysium", correct: false },
+          { text: "Epimysium", correct: false },
+          { text: "Sarcoplasmic reticulum", correct: false }
+        ],
+        explanation: "The sarcolemma is the specific term for the plasma membrane enclosing a muscle fiber (cell)."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "What connective tissue layer directly surrounds individual skeletal muscle fibers?",
+        options: [
+          { text: "Endomysium", correct: true },
+          { text: "Perimysium", correct: false },
+          { text: "Epimysium", correct: false },
+          { text: "Deep fascia", correct: false },
+          { text: "Tendon sheath", correct: false }
+        ],
+        explanation: "Endomysium is the delicate connective tissue layer directly wrapping each individual muscle fiber."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "Which intracellular structure in skeletal muscle serves as the primary storage site for calcium ions?",
+        options: [
+          { text: "Sarcoplasmic reticulum", correct: true },
+          { text: "Transverse (T) tubule", correct: false },
+          { text: "Myofibril", correct: false },
+          { text: "Sarcolemma", correct: false },
+          { text: "Golgi apparatus", correct: false }
+        ],
+        explanation: "The sarcoplasmic reticulum is a modified smooth endoplasmic reticulum that stores and releases Ca2+."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "What role do Transverse (T) tubules play in skeletal muscle contraction physiology?",
+        options: [
+          { text: "They conduct action potentials deep into the interior of the muscle fiber", correct: true },
+          { text: "They store glycogen molecules for ATP generation", correct: false },
+          { text: "They anchor thick filaments to the M-line", correct: false },
+          { text: "They secrete acetylcholinesterase into the synaptic cleft", correct: false },
+          { text: "They synthesize myoglobin proteins", correct: false }
+        ],
+        explanation: "T-tubules are invaginations of the sarcolemma that carry muscle action potentials deep into the cell."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "Which protein blocks the myosin-binding sites on actin filaments in a resting skeletal muscle fiber?",
+        options: [
+          { text: "Tropomyosin", correct: true },
+          { text: "Troponin", correct: false },
+          { text: "Myosin", correct: false },
+          { text: "Titin", correct: false },
+          { text: "Dystrophin", correct: false }
+        ],
+        explanation: "In a resting muscle fiber, tropomyosin covers the active myosin-binding sites on the thin actin filament."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "What specific event occurs when calcium ions bind to troponin during muscle excitation-contraction coupling?",
+        options: [
+          { text: "Troponin changes shape and pulls tropomyosin away from actin binding sites", correct: true },
+          { text: "Myosin heads immediately hydrolyze into titin and dystrophin", correct: false },
+          { text: "Acetylcholine is actively transported back into presynaptic vesicles", correct: false },
+          { text: "The sarcolemma repolarizes to resting potential (-70 mV)", correct: false },
+          { text: "ATP is synthesized directly from lactic acid", correct: false }
+        ],
+        explanation: "Calcium binding to troponin causes a conformational shift that pulls tropomyosin off the myosin-binding sites on actin."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "What action causes the detachment of the myosin head from the actin filament during the crossbridge cycle?",
+        options: [
+          { text: "Binding of a new ATP molecule to the myosin head", correct: true },
+          { text: "Hydrolysis of ATP into ADP and inorganic phosphate", correct: false },
+          { text: "Release of calcium ions into the extracellular fluid", correct: false },
+          { text: "Binding of acetylcholine to T-tubule receptors", correct: false },
+          { text: "Opening of voltage-gated potassium channels", correct: false }
+        ],
+        explanation: "A new molecule of ATP must bind to the myosin head to cause crossbridge detachment from actin."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "Histologically, functional contractile units bounded by Z-discs within a myofibril are called:",
+        options: [
+          { text: "Sarcomeres", correct: true },
+          { text: "Fascicles", correct: false },
+          { text: "Myofilaments", correct: false },
+          { text: "Crossbridges", correct: false },
+          { text: "Triads", correct: false }
+        ],
+        explanation: "A sarcomere is the functional contractile unit of a striated muscle fiber, extending from one Z-disc to the next."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "Which neurotransmitter is released at the somatic neuromuscular junction to stimulate skeletal muscle fibers?",
+        options: [
+          { text: "Acetylcholine (ACh)", correct: true },
+          { text: "Norepinephrine", correct: false },
+          { text: "GABA", correct: false },
+          { text: "Dopamine", correct: false },
+          { text: "Glutamate", correct: false }
+        ],
+        explanation: "Somatic motor neurons release acetylcholine (ACh) at the neuromuscular junction."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "What enzyme breaks down acetylcholine in the synaptic cleft to prevent continuous muscle stimulation?",
+        options: [
+          { text: "Acetylcholinesterase", correct: true },
+          { text: "Creatine kinase", correct: false },
+          { text: "ATPase", correct: false },
+          { text: "Carbonic anhydrase", correct: false },
+          { text: "Myosin light-chain kinase", correct: false }
+        ],
+        explanation: "Acetylcholinesterase rapidly degrades ACh in the synaptic cleft, stopping end-plate excitation."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "Which muscle tissue type contains striated, multinucleated, long cylindrical cells under voluntary control?",
+        options: [
+          { text: "Skeletal muscle", correct: true },
+          { text: "Cardiac muscle", correct: false },
+          { text: "Smooth muscle", correct: false },
+          { text: "Visceral muscle", correct: false },
+          { text: "Autonomic muscle", correct: false }
+        ],
+        explanation: "Skeletal muscle consists of long, cylindrical, multinucleated, striated fibers subject to voluntary control."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "Which skeletal muscle organelle contains high concentrations of oxygen-storing red pigment?",
+        options: [
+          { text: "Myoglobin", correct: true },
+          { text: "Hemoglobin", correct: false },
+          { text: "Glycogen", correct: false },
+          { text: "Calmodulin", correct: false },
+          { text: "Creatine", correct: false }
+        ],
+        explanation: "Myoglobin is an oxygen-binding protein located in the sarcoplasm of muscle fibers."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "A connective tissue sheath that wraps around an entire bundle (fascicle) of 10 to 100 muscle fibers is the:",
+        options: [
+          { text: "Perimysium", correct: true },
+          { text: "Epimysium", correct: false },
+          { text: "Endomysium", correct: false },
+          { text: "Sarcolemma", correct: false },
+          { text: "Periosteum", correct: false }
+        ],
+        explanation: "Perimysium is the middle connective tissue layer surrounding a bundle of muscle fibers called a fascicle."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "What metabolic pathway provides the fastest immediate source of ATP for muscle contraction lasting under 15 seconds?",
+        options: [
+          { text: "Creatine phosphate transfer", correct: true },
+          { text: "Aerobic cellular respiration", correct: false },
+          { text: "Anaerobic glycolysis", correct: false },
+          { text: "Beta oxidation of fatty acids", correct: false },
+          { text: "Lactic acid fermentation", correct: false }
+        ],
+        explanation: "Creatine phosphate transfers its high-energy phosphate directly to ADP, supplying fast ATP for ~15 seconds."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "Which band or zone in a sarcomere contains only thin (actin) filaments and shrinks during contraction?",
+        options: [
+          { text: "I-band", correct: true },
+          { text: "A-band", correct: false },
+          { text: "H-zone", correct: false },
+          { text: "M-line", correct: false },
+          { text: "Z-disc", correct: false }
+        ],
+        explanation: "The I-band is the light region containing only thin filaments; it narrows as filaments slide during contraction."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "Which protein component forms the main structural backbone of thick filaments in sarcomeres?",
+        options: [
+          { text: "Myosin", correct: true },
+          { text: "Actin", correct: false },
+          { text: "Troponin", correct: false },
+          { text: "Tropomyosin", correct: false },
+          { text: "Nebulin", correct: false }
+        ],
+        explanation: "Thick filaments are composed primarily of the motor protein myosin."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "What structure forms a 'triad' in skeletal muscle fibers?",
+        options: [
+          { text: "One central T-tubule flanked by two terminal cisternae of sarcoplasmic reticulum", correct: true },
+          { text: "Three parallel actin filaments surrounding one myosin filament", correct: false },
+          { text: "One motor end plate, one axon terminal, and one synaptic cleft", correct: false },
+          { text: "Three adjacent sarcomeres connected by intercalated discs", correct: false },
+          { text: "One epimysium, one perimysium, and one endomysium sheath", correct: false }
+        ],
+        explanation: "A triad consists of a central T-tubule surrounded on both sides by terminal cisternae of the sarcoplasmic reticulum."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "How does smooth muscle differ histologically from skeletal and cardiac muscle?",
+        options: [
+          { text: "It lacks visible striations and organized sarcomeres", correct: true },
+          { text: "It contains multiple marginal nuclei per cell", correct: false },
+          { text: "It possesses prominent intercalated discs", correct: false },
+          { text: "It is under voluntary control by somatic nerves", correct: false },
+          { text: "It contains T-tubule triads at every A-I junction", correct: false }
+        ],
+        explanation: "Smooth muscle lacks striations because its actin and myosin filaments are not arranged in regular sarcomeres."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "What byproduct accumulates in muscle tissue during prolonged anaerobic glycolysis?",
+        options: [
+          { text: "Lactic acid (lactate)", correct: true },
+          { text: "Creatine phosphate", correct: false },
+          { text: "Acetylcholine", correct: false },
+          { text: "Oxygen gas", correct: false },
+          { text: "Calmodulin", correct: false }
+        ],
+        explanation: "Anaerobic glycolysis converts pyruvate into lactic acid when oxygen delivery is insufficient."
+      },
+      {
+        lec: 1, type: "mcq",
+        text: "What physiological phenomenon occurs when a muscle is stimulated again before it can fully relax, yielding increased tension?",
+        options: [
+          { text: "Wave summation", correct: true },
+          { text: "Complete atrophy", correct: false },
+          { text: "Rigor mortis", correct: false },
+          { text: "Repolarization deficit", correct: false },
+          { text: "Synaptic fatigue", correct: false }
+        ],
+        explanation: "Wave summation occurs when successive muscle twitches arrive before relaxation completes, adding tension together."
+      },
+
+      // ==========================================
+      // LECTURE 2: NERVOUS SYSTEM PART 1 (30 Qs: 20 MCQ, 10 SATA)
+      // ==========================================
+      {
+        lec: 2, type: "sata",
+        text: "Which anatomical structures comprise the Central Nervous System (CNS)? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Brain", correct: true },
+          { text: "Spinal cord", correct: true },
+          { text: "Cranial nerves extending to head and neck organs", correct: false },
+          { text: "Spinal nerves extending to body limbs", correct: false },
+          { text: "Autonomic ganglia located in the abdomen", correct: false }
+        ],
+        explanation: "The CNS consists strictly of the brain and spinal cord. Nerves and ganglia belong to the PNS."
+      },
+      {
+        lec: 2, type: "sata",
+        text: "Which functional divisions belong to the Peripheral Nervous System (PNS)? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Somatic nervous system controlling voluntary skeletal muscles", correct: true },
+          { text: "Autonomic nervous system controlling involuntary smooth/cardiac muscle and glands", correct: true },
+          { text: "Sympathetic division mediating 'fight or flight' stress responses", correct: true },
+          { text: "Parasympathetic division mediating 'rest and digest' activities", correct: true },
+          { text: "Dorsal integration center processing high-level speech thoughts", correct: false }
+        ],
+        explanation: "PNS functional divisions include somatic, autonomic (sympathetic & parasympathetic), and enteric systems."
+      },
+      {
+        lec: 2, type: "sata",
+        text: "Which neuroglial cells are found exclusively within the Central Nervous System (CNS)? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Astrocytes", correct: true },
+          { text: "Oligodendrocytes", correct: true },
+          { text: "Microglia", correct: true },
+          { text: "Ependymal cells", correct: true },
+          { text: "Schwann cells", correct: false }
+        ],
+        explanation: "CNS glia are astrocytes, oligodendrocytes, microglia, and ependymal cells. Schwann cells and satellite cells are found in the PNS."
+      },
+      {
+        lec: 2, type: "sata",
+        text: "Which neuroglial cell types are correctly matched with their physiological functions? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Astrocytes maintain the blood-brain barrier and regulate ion environment", correct: true },
+          { text: "Oligodendrocytes form myelin sheaths around multiple CNS axons", correct: true },
+          { text: "Schwann cells form myelin sheaths around PNS axons", correct: true },
+          { text: "Microglia function as phagocytes removing cellular debris and pathogens", correct: true },
+          { text: "Ependymal cells synthesize acetylcholine at motor end plates", correct: false }
+        ],
+        explanation: "Astrocytes support BBB; oligodendrocytes myelinate CNS; Schwann cells myelinate PNS; microglia phagocytize debris. Ependymal cells make CSF."
+      },
+      {
+        lec: 2, type: "sata",
+        text: "Which anatomical terms describe specific groupings of nervous tissue based on location? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Nucleus: A cluster of neuron cell bodies located in the CNS", correct: true },
+          { text: "Ganglion: A cluster of neuron cell bodies located in the PNS", correct: true },
+          { text: "Tract: A bundle of nerve axons located in the CNS", correct: true },
+          { text: "Nerve: A bundle of nerve axons located in the PNS", correct: true },
+          { text: "Ganglion: A bundle of myelinated axons located in the brain cortex", correct: false }
+        ],
+        explanation: "In CNS: cell body cluster = nucleus, axon bundle = tract. In PNS: cell body cluster = ganglion, axon bundle = nerve."
+      },
+      {
+        lec: 2, type: "sata",
+        text: "Which ionic events take place during the phases of a neuronal action potential? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Opening of voltage-gated Na+ channels leads to rapid Na+ influx during depolarization", correct: true },
+          { text: "Opening of voltage-gated K+ channels leads to K+ efflux during repolarization", correct: true },
+          { text: "Reaching a threshold voltage of -55 mV at the trigger zone triggers the impulse", correct: true },
+          { text: "The resting membrane potential is maintained around -70 mV", correct: true },
+          { text: "Depolarization is caused by rapid active transport of K+ into the cell", correct: false }
+        ],
+        explanation: "Depolarization involves passive Na+ influx through voltage-gated channels; repolarization involves K+ efflux."
+      },
+      {
+        lec: 2, type: "sata",
+        text: "Which functional properties characterize neurons? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "High metabolic rate requiring continuous oxygen and glucose", correct: true },
+          { text: "Extreme longevity (can function for a lifetime)", correct: true },
+          { text: "Conductivity and electrical excitability", correct: true },
+          { text: "Generally amitotic (lose ability to undergo mitosis in adults)", correct: true },
+          { text: "Ability to divide rapidly to replace damaged brain regions", correct: false }
+        ],
+        explanation: "Neurons are highly metabolic, long-lived, excitable, conductive, and generally amitotic."
+      },
+      {
+        lec: 2, type: "sata",
+        text: "Which structural parts of a neuron are correctly matched with their functional roles? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Dendrites receive incoming signals and conduct them toward the cell body", correct: true },
+          { text: "Axon hillock acts as the trigger zone where action potentials originate", correct: true },
+          { text: "Axon conducts nerve impulses away from the cell body toward synaptic terminals", correct: true },
+          { text: "Synaptic end bulbs contain neurotransmitters packaged in synaptic vesicles", correct: true },
+          { text: "Myelin sheath acts as an electrical conductor to slow down action potentials", correct: false }
+        ],
+        explanation: "Myelin sheaths act as electrical insulators that *speed up* signal conduction (saltatory conduction)."
+      },
+      {
+        lec: 2, type: "sata",
+        text: "Which physiological events occur at a chemical synapse during impulse transmission? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Action potential arrival depolarizes the presynaptic axon terminal", correct: true },
+          { text: "Voltage-gated Ca2+ channels open, allowing Ca2+ to enter the presynaptic bulb", correct: true },
+          { text: "Ca2+ influx triggers exocytosis of neurotransmitters into the synaptic cleft", correct: true },
+          { text: "Neurotransmitters diffuse across the cleft and bind to postsynaptic receptors", correct: true },
+          { text: "Neurotransmitters enter the postsynaptic cell through open Na+ pores", correct: false }
+        ],
+        explanation: "Neurotransmitters bind to cell surface receptors on the postsynaptic membrane; they do not enter the cell."
+      },
+      {
+        lec: 2, type: "sata",
+        text: "Which neurotransmitters are correctly paired with their primary central nervous system roles? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Glutamate: Main excitatory neurotransmitter in the brain", correct: true },
+          { text: "GABA (gamma-aminobutyric acid): Main inhibitory neurotransmitter in the brain", correct: true },
+          { text: "Acetylcholine: Active at skeletal neuromuscular junctions and autonomic synapses", correct: true },
+          { text: "Dopamine: Involved in motor control, reward pathways, and emotional responses", correct: true },
+          { text: "GABA: Primary excitatory chemical that depolarizes cardiac muscle", correct: false }
+        ],
+        explanation: "GABA is the chief inhibitory neurotransmitter in the brain, hyperpolarizing postsynaptic membranes."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "What is the baseline resting membrane potential of a typical neuron?",
+        options: [
+          { text: "-70 mV", correct: true },
+          { text: "-55 mV", correct: false },
+          { text: "+30 mV", correct: false },
+          { text: "0 mV", correct: false },
+          { text: "-90 mV", correct: false }
+        ],
+        explanation: "The resting membrane potential of a typical neuron is maintained at -70 mV."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "What threshold voltage must be reached at the axon hillock to initiate an action potential?",
+        options: [
+          { text: "-55 mV", correct: true },
+          { text: "-70 mV", correct: false },
+          { text: "+30 mV", correct: false },
+          { text: "0 mV", correct: false },
+          { text: "-80 mV", correct: false }
+        ],
+        explanation: "Reaching the threshold potential of -55 mV triggers the opening of voltage-gated Na+ channels."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "Which ion influx causes the rapid depolarization phase (+30 mV) of an action potential?",
+        options: [
+          { text: "Sodium (Na+)", correct: true },
+          { text: "Potassium (K+)", correct: false },
+          { text: "Calcium (Ca2+)", correct: false },
+          { text: "Chloride (Cl-)", correct: false },
+          { text: "Bicarbonate (HCO3-)", correct: false }
+        ],
+        explanation: "Rapid sodium (Na+) influx through voltage-gated channels depolarizes the neuronal membrane."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "Which ion efflux is responsible for repolarization of the neuronal membrane back toward resting potential?",
+        options: [
+          { text: "Potassium (K+)", correct: true },
+          { text: "Sodium (Na+)", correct: false },
+          { text: "Calcium (Ca2+)", correct: false },
+          { text: "Chloride (Cl-)", correct: false },
+          { text: "Phosphate", correct: false }
+        ],
+        explanation: "Potassium (K+) leaves the neuron through open voltage-gated K+ channels during repolarization."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "Which neuroglial cell forms the protective myelin sheath around axons in the Central Nervous System?",
+        options: [
+          { text: "Oligodendrocyte", correct: true },
+          { text: "Schwann cell", correct: false },
+          { text: "Astrocyte", correct: false },
+          { text: "Microglia", correct: false },
+          { text: "Ependymal cell", correct: false }
+        ],
+        explanation: "Oligodendrocytes produce myelin sheaths around CNS axons, whereas Schwann cells do so in the PNS."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "Histologically, a cluster of neuron cell bodies located in the Peripheral Nervous System is termed a:",
+        options: [
+          { text: "Ganglion", correct: true },
+          { text: "Nucleus", correct: false },
+          { text: "Tract", correct: false },
+          { text: "Nerve", correct: false },
+          { text: "Plexus", correct: false }
+        ],
+        explanation: "A ganglion is a collection of neuron cell bodies located in the PNS."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "Which specific ion entry into the presynaptic bulb triggers neurotransmitter exocytosis?",
+        options: [
+          { text: "Calcium (Ca2+)", correct: true },
+          { text: "Sodium (Na+)", correct: false },
+          { text: "Potassium (K+)", correct: false },
+          { text: "Chloride (Cl-)", correct: false },
+          { text: "Magnesium (Mg2+)", correct: false }
+        ],
+        explanation: "Arrival of an action potential opens voltage-gated Ca2+ channels; Ca2+ entry triggers neurotransmitter vesicle exocytosis."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "Which division of the nervous system conducts motor signals to skeletal muscles under voluntary control?",
+        options: [
+          { text: "Somatic nervous system", correct: true },
+          { text: "Autonomic nervous system", correct: false },
+          { text: "Sympathetic nervous system", correct: false },
+          { text: "Parasympathetic nervous system", correct: false },
+          { text: "Enteric nervous system", correct: false }
+        ],
+        explanation: "The somatic nervous system mediates voluntary somatic motor impulses to skeletal muscles."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "What structure maintains resting membrane ionic concentration gradients (3 Na+ out / 2 K+ in) over the long term?",
+        options: [
+          { text: "Na+/K+ ATPase pump", correct: true },
+          { text: "Voltage-gated calcium channel", correct: false },
+          { text: "Ligand-gated chloride pore", correct: false },
+          { text: "Myelin sheath gap", correct: false },
+          { text: "Ependymal cilia", correct: false }
+        ],
+        explanation: "The primary active Na+/K+ pump uses ATP to transport 3 Na+ out and 2 K+ in, preserving ionic gradients."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "What neuronal extensions typically function as the primary input regions receiving signals from other neurons?",
+        options: [
+          { text: "Dendrites", correct: true },
+          { text: "Axon terminals", correct: false },
+          { text: "Axon hillock", correct: false },
+          { text: "Nodes of Ranvier", correct: false },
+          { text: "Synaptic end bulbs", correct: false }
+        ],
+        explanation: "Dendrites are short, branching processes that receive chemical signals and direct graded potentials toward the cell body."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "Which neuroglial cell lines brain ventricles and produces/circulates Cerebrospinal Fluid (CSF)?",
+        options: [
+          { text: "Ependymal cell", correct: true },
+          { text: "Astrocyte", correct: false },
+          { text: "Microglia", correct: false },
+          { text: "Oligodendrocyte", correct: false },
+          { text: "Satellite cell", correct: false }
+        ],
+        explanation: "Ependymal cells are ciliated glial cells lining ventricles that assist in producing and circulating CSF."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "An Inhibitory Postsynaptic Potential (IPSP) causes which change on the postsynaptic membrane?",
+        options: [
+          { text: "Hyperpolarization (moving potential further below resting level)", correct: true },
+          { text: "Depolarization to threshold (-55 mV)", correct: false },
+          { text: "Immediate action potential generation", correct: false },
+          { text: "Inactivation of all potassium leak channels", correct: false },
+          { text: "Exocytosis of pre-stored acetylcholine", correct: false }
+        ],
+        explanation: "IPSPs cause hyperpolarization (e.g. by opening Cl- or K+ channels), pushing membrane potential further from threshold."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "What term describes a bundle of myelinated nerve fibers (axons) within the Central Nervous System?",
+        options: [
+          { text: "Tract", correct: true },
+          { text: "Nerve", correct: false },
+          { text: "Ganglion", correct: false },
+          { text: "Nucleus", correct: false },
+          { text: "Plexus", correct: false }
+        ],
+        explanation: "A bundle of axons within the CNS is called a tract. (In the PNS, it is called a nerve)."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "What is the functional role of microglia within the CNS?",
+        options: [
+          { text: "Phagocytizing microbes, damaged tissue, and cellular debris", correct: true },
+          { text: "Myelinating multiple axon segments simultaneously", correct: false },
+          { text: "Forming tight junctions in blood capillary endothelial cells", correct: false },
+          { text: "Secreting acetylcholine into motor end plates", correct: false },
+          { text: "Conducting action potentials across the corpus callosum", correct: false }
+        ],
+        explanation: "Microglia act as the primary immune defense/macrophages in the CNS, clearing pathogens and debris."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "What occurs if a graded potential reaches -60 mV at the axon hillock?",
+        options: [
+          { text: "No action potential is triggered because threshold (-55 mV) was not reached", correct: true },
+          { text: "A smaller, weaker action potential travels halfway down the axon", correct: false },
+          { text: "Voltage-gated sodium channels open fully and stay open indefinitely", correct: false },
+          { text: "The neuron immediately repolarizes to +30 mV", correct: false },
+          { text: "Calcium flows out of dendrites into the synaptic cleft", correct: false }
+        ],
+        explanation: "Action potentials follow an all-or-none principle; if threshold (-55 mV) is not met, no action potential occurs."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "Which neuroglial cell type forms the myelin sheath around peripheral nerve fibers?",
+        options: [
+          { text: "Schwann cells", correct: true },
+          { text: "Oligodendrocytes", correct: false },
+          { text: "Astrocytes", correct: false },
+          { text: "Microglia", correct: false },
+          { text: "Ependymal cells", correct: false }
+        ],
+        explanation: "Schwann cells form myelin sheaths around axons in the Peripheral Nervous System."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "What period occurs when voltage-gated Na+ channels are inactivated and no stimulus can trigger a new action potential?",
+        options: [
+          { text: "Absolute refractory period", correct: true },
+          { text: "Relative refractory period", correct: false },
+          { text: "Latent period", correct: false },
+          { text: "Depolarization phase", correct: false },
+          { text: "Summation gap", correct: false }
+        ],
+        explanation: "During the absolute refractory period, inactivated Na+ channels cannot reopen, preventing another impulse."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "Which major CNS neurotransmitter opens chloride channels to hyperpolarize postsynaptic neurons?",
+        options: [
+          { text: "GABA", correct: true },
+          { text: "Glutamate", correct: false },
+          { text: "Acetylcholine", correct: false },
+          { text: "Epinephrine", correct: false },
+          { text: "Substance P", correct: false }
+        ],
+        explanation: "GABA opens ligand-gated chloride (Cl-) channels, causing Cl- influx and hyperpolarization (IPSP)."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "Which neuroglial cells wrap around blood capillaries in the brain to form the Blood-Brain Barrier (BBB)?",
+        options: [
+          { text: "Astrocytes", correct: true },
+          { text: "Oligodendrocytes", correct: false },
+          { text: "Schwann cells", correct: false },
+          { text: "Microglia", correct: false },
+          { text: "Ependymal cells", correct: false }
+        ],
+        explanation: "Astrocytes extend perivascular feet around brain capillaries, stimulating tight junction formation for the BBB."
+      },
+      {
+        lec: 2, type: "mcq",
+        text: "What term describes the rapid jumping of an action potential from node to node along a myelinated axon?",
+        options: [
+          { text: "Saltatory conduction", correct: true },
+          { text: "Continuous conduction", correct: false },
+          { text: "Graded depolarization", correct: false },
+          { text: "Synaptic summation", correct: false },
+          { text: "Wave propagation", correct: false }
+        ],
+        explanation: "In myelinated axons, action potentials jump between Nodes of Ranvier, a process called saltatory conduction."
+      },
+
+      // ==========================================
+      // LECTURE 3: NERVOUS SYSTEM PART 2 (30 Qs: 20 MCQ, 10 SATA)
+      // ==========================================
+      {
+        lec: 3, type: "sata",
+        text: "Which gross anatomical features describe the adult human spinal cord? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Extends from the foramen magnum down to the level of L1-L2 vertebrae", correct: true },
+          { text: "Tapers inferiorly into the conus medullaris", correct: true },
+          { text: "Gives rise to the cauda equina composed of nerve roots in the lower vertebral canal", correct: true },
+          { text: "Contains cervical and lumbar enlargements where nerve plexuses supply limbs", correct: true },
+          { text: "Extends continuously through the entire sacral canal down to the coccyx tip", correct: false }
+        ],
+        explanation: "The spinal cord ends around L1-L2 at the conus medullaris; below this, nerve roots form the cauda equina."
+      },
+      {
+        lec: 3, type: "sata",
+        text: "Which structures are present in a cross section of the spinal cord? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Central gray matter shaped like a butterfly containing neuron cell bodies", correct: true },
+          { text: "Outer white matter arranged in columns containing myelinated tracts", correct: true },
+          { text: "Dorsal roots containing sensory neuron axons entering the cord", correct: true },
+          { text: "Ventral roots containing motor neuron axons exiting the cord", correct: true },
+          { text: "Ventral root ganglia containing sensory neuron cell bodies", correct: false }
+        ],
+        explanation: "Sensory neuron cell bodies reside in the *dorsal* root ganglion, not ventral roots."
+      },
+      {
+        lec: 3, type: "sata",
+        text: "Which functional cortical regions are correctly matched with their location in the brain? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Primary motor area: Located on the precentral gyrus of the frontal lobe", correct: true },
+          { text: "Primary somatosensory area: Located on the postcentral gyrus of the parietal lobe", correct: true },
+          { text: "Primary visual area: Located in the occipital lobe", correct: true },
+          { text: "Primary auditory area: Located in the temporal lobe", correct: true },
+          { text: "Primary motor area: Located on the occipital pole adjacent to the cerebellum", correct: false }
+        ],
+        explanation: "Precentral gyrus (frontal) = primary motor; postcentral gyrus (parietal) = primary sensory; occipital = vision; temporal = hearing."
+      },
+      {
+        lec: 3, type: "sata",
+        text: "Which structures belong to the diencephalon region of the brain? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Thalamus", correct: true },
+          { text: "Hypothalamus", correct: true },
+          { text: "Epithalamus (including the pineal gland)", correct: true },
+          { text: "Pons and medulla oblongata", correct: false },
+          { text: "Cerebellar hemispheres", correct: false }
+        ],
+        explanation: "Diencephalon includes thalamus, hypothalamus, and epithalamus. Pons/medulla are brainstem; cerebellum is separate."
+      },
+      {
+        lec: 3, type: "sata",
+        text: "Which major functional centers are located within the brainstem (midbrain, pons, medulla)? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Cardiovascular center in the medulla controlling heart rate and blood pressure", correct: true },
+          { text: "Respiratory rhythmicity center in the medulla controlling basic breathing rate", correct: true },
+          { text: "Pontine respiratory centers assisting in breathing transition control", correct: true },
+          { text: "Pyramids of the medulla where major motor tracts decussate (cross over)", correct: true },
+          { text: "Primary memory consolidation center for complex mathematical facts", correct: false }
+        ],
+        explanation: "The brainstem contains essential autonomic survival centers (cardiovascular, respiratory) and motor decussation."
+      },
+      {
+        lec: 3, type: "sata",
+        text: "Which layers and spaces comprise the meninges surrounding the CNS from superficial to deep? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Dura mater: Tough, fibrous outermost layer", correct: true },
+          { text: "Arachnoid mater: Spiderweb-like middle layer", correct: true },
+          { text: "Subarachnoid space: Contains circulating Cerebrospinal Fluid (CSF)", correct: true },
+          { text: "Pia mater: Delicate, highly vascular innermost layer adhering to brain tissue", correct: true },
+          { text: "Pia mater: Thickest superficial fibrous sheath attached directly to skull bone", correct: false }
+        ],
+        explanation: "Meninges order (outer to inner): Dura mater -> Arachnoid mater -> Subarachnoid space (CSF) -> Pia mater."
+      },
+      {
+        lec: 3, type: "sata",
+        text: "Which statements correctly compare the Sympathetic and Parasympathetic divisions of the Autonomic Nervous System (ANS)? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Sympathetic division originates from Thoracolumbar spinal segments (T1-L2)", correct: true },
+          { text: "Parasympathetic division originates from Craniosacral regions (cranial nerves & S2-S4)", correct: true },
+          { text: "Sympathetic activation prepares the body for emergency 'fight-or-flight' actions", correct: true },
+          { text: "Parasympathetic activation promotes 'rest-and-digest' visceral functions", correct: true },
+          { text: "Sympathetic postganglionic neurons always release acetylcholine onto heart receptors", correct: false }
+        ],
+        explanation: "Sympathetic postganglionic neurons release norepinephrine (NE) to increase heart rate; parasympathetic neurons release ACh."
+      },
+      {
+        lec: 3, type: "sata",
+        text: "Which pathways and structures are involved in Cerebrospinal Fluid (CSF) circulation? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Produced by choroid plexuses inside the brain ventricles", correct: true },
+          { text: "Flows from lateral ventricles through interventricular foramina into the third ventricle", correct: true },
+          { text: "Passes through the cerebral aqueduct into the fourth ventricle", correct: true },
+          { text: "Enters the subarachnoid space and is reabsorbed via arachnoid villi into dural sinuses", correct: true },
+          { text: "Reabsorbed directly by motor end plates in skeletal muscle tendons", correct: false }
+        ],
+        explanation: "CSF is secreted by choroid plexuses, flows through ventricles to subarachnoid space, and drains into dural venous sinuses via arachnoid villi."
+      },
+      {
+        lec: 3, type: "sata",
+        text: "Which functions are associated with specific cerebral hemisphere areas? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Broca's area: Controls motor output required for speech production", correct: true },
+          { text: "Wernicke's area: Interprets and understands spoken and written language", correct: true },
+          { text: "Prefrontal cortex: Regulates decision-making, planning, and personality", correct: true },
+          { text: "Corpus callosum: Connects left and right cerebral hemispheres with commissural fibers", correct: true },
+          { text: "Wernicke's area: Directly triggers contraction of the diaphragm during breathing", correct: false }
+        ],
+        explanation: "Broca's = speech production; Wernicke's = language comprehension; Prefrontal = reasoning/personality; Corpus callosum = interhemispheric communication."
+      },
+      {
+        lec: 3, type: "sata",
+        text: "Which cranial nerves carry purely sensory information? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Cranial Nerve I (Olfactory nerve)", correct: true },
+          { text: "Cranial Nerve II (Optic nerve)", correct: true },
+          { text: "Cranial Nerve VIII (Vestibulocochlear nerve)", correct: true },
+          { text: "Cranial Nerve III (Oculomotor nerve)", correct: false },
+          { text: "Cranial Nerve XII (Hypoglossal nerve)", correct: false }
+        ],
+        explanation: "Cranial nerves I, II, and VIII are purely sensory (smell, vision, hearing/balance). III and XII are motor."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "At what anatomical level does the spinal cord end in adults?",
+        options: [
+          { text: "L1 - L2 vertebrae", correct: true },
+          { text: "T10 - T11 vertebrae", correct: false },
+          { text: "L5 - S1 vertebrae", correct: false },
+          { text: "Coccyx tip", correct: false },
+          { text: "C7 - T1 vertebrae", correct: false }
+        ],
+        explanation: "The adult spinal cord ends at the conus medullaris between L1 and L2."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "What is the main function of the cerebellum?",
+        options: [
+          { text: "Evaluating and coordinating smooth motor movements, posture, and balance", correct: true },
+          { text: "Regulating body temperature, hunger, and thirst", correct: false },
+          { text: "Relaying all incoming visual signals directly to the temporal lobe", correct: false },
+          { text: "Secreting melatonin to regulate circadian sleep cycles", correct: false },
+          { text: "Controlling heart rate and blood vessel diameter", correct: false }
+        ],
+        explanation: "The cerebellum functions primarily in motor coordination, maintaining posture, balance, and fine-tuning movement."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "In which cerebral lobe is Wernicke's area located for language comprehension?",
+        options: [
+          { text: "Temporal lobe (left hemisphere)", correct: true },
+          { text: "Frontal lobe", correct: false },
+          { text: "Occipital lobe", correct: false },
+          { text: "Insula", correct: false },
+          { text: "Cerebellar hemisphere", correct: false }
+        ],
+        explanation: "Wernicke's area is located in the temporal lobe (typically left side) and handles language comprehension."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "Which structure acts as the main sensory relay station routing sensory input to the cerebral cortex?",
+        options: [
+          { text: "Thalamus", correct: true },
+          { text: "Hypothalamus", correct: false },
+          { text: "Pons", correct: false },
+          { text: "Medulla oblongata", correct: false },
+          { text: "Epithalamus", correct: false }
+        ],
+        explanation: "The thalamus acts as the gateway/relay station for almost all sensory impulses entering the cerebral cortex."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "Which brain region functions as the main autonomic and endocrine control center regulating homeostasis?",
+        options: [
+          { text: "Hypothalamus", correct: true },
+          { text: "Thalamus", correct: false },
+          { text: "Cerebellum", correct: false },
+          { text: "Midbrain", correct: false },
+          { text: "Pineal gland", correct: false }
+        ],
+        explanation: "The hypothalamus regulates the autonomic nervous system, pituitary gland, body temperature, thirst, and hunger."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "What large white matter structure connects the left and right cerebral hemispheres?",
+        options: [
+          { text: "Corpus callosum", correct: true },
+          { text: "Internal capsule", correct: false },
+          { text: "Fornix", correct: false },
+          { text: "Basal nuclei", correct: false },
+          { text: "Central canal", correct: false }
+        ],
+        explanation: "The corpus callosum is a massive commissural fiber tract connecting the two cerebral hemispheres."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "Where is Cerebrospinal Fluid (CSF) continuously produced inside the brain?",
+        options: [
+          { text: "Choroid plexuses of the ventricles", correct: true },
+          { text: "Arachnoid villi in dural sinuses", correct: false },
+          { text: "Subarachnoid space surrounding the cord", correct: false },
+          { text: "Dorsal root ganglia", correct: false },
+          { text: "Substantia nigra", correct: false }
+        ],
+        explanation: "CSF is produced by choroid plexuses (capillaries covered by ependymal cells) within brain ventricles."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "What structure forms the physical Blood-Brain Barrier (BBB)?",
+        options: [
+          { text: "Brain capillary endothelial cells with tight junctions supported by astrocyte feet", correct: true },
+          { text: "Thick layers of dura mater lining cerebral blood vessels", correct: false },
+          { text: "Ependymal cell cilia covering the choroid plexus", correct: false },
+          { text: "Myelin sheaths formed by Schwann cells around cranial nerves", correct: false },
+          { text: "Microglial cell membranes surrounding the pineal gland", correct: false }
+        ],
+        explanation: "Endothelial cells joined by tight junctions along with astrocyte perivascular processes form the BBB."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "Where do motor tracts decussate (cross over) so that the left brain controls the right side of the body?",
+        options: [
+          { text: "Pyramids of the medulla oblongata", correct: true },
+          { text: "Pons", correct: false },
+          { text: "Midbrain cerebral peduncles", correct: false },
+          { text: "Thalamic interthalamic adhesion", correct: false },
+          { text: "Corpus callosum", correct: false }
+        ],
+        explanation: "Decussation of the pyramids occurs in the medulla oblongata."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "Which cranial nerve provides parasympathetic innervation to thoracic and abdominal visceral organs?",
+        options: [
+          { text: "Vagus nerve (CN X)", correct: true },
+          { text: "Trigeminal nerve (CN V)", correct: false },
+          { text: "Facial nerve (CN VII)", correct: false },
+          { text: "Glossopharyngeal nerve (CN IX)", correct: false },
+          { text: "Accessory nerve (CN XI)", correct: false }
+        ],
+        explanation: "The vagus nerve (CN X) carries ~90% of parasympathetic preganglionic fibers to thoracic/abdominal viscera."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "What is the innermost, highly vascular meningeal layer adhering closely to the brain surface?",
+        options: [
+          { text: "Pia mater", correct: true },
+          { text: "Arachnoid mater", correct: false },
+          { text: "Dura mater", correct: false },
+          { text: "Subdural space", correct: false },
+          { text: "Epidural layer", correct: false }
+        ],
+        explanation: "Pia mater is the delicate, vascular innermost meningeal layer clinging directly to brain and cord surfaces."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "Which division of the autonomic nervous system is termed 'thoracolumbar' based on its site of origin?",
+        options: [
+          { text: "Sympathetic division", correct: true },
+          { text: "Parasympathetic division", correct: false },
+          { text: "Somatic division", correct: false },
+          { text: "Craniosacral division", correct: false },
+          { text: "Central integration division", correct: false }
+        ],
+        explanation: "The sympathetic division originates from thoracic and lumbar segments T1-L2 (thoracolumbar)."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "What functional brain system maintains wakefulness, consciousness, and cortical alertness?",
+        options: [
+          { text: "Reticular Activating System (RAS)", correct: true },
+          { text: "Limbic system", correct: false },
+          { text: "Basal ganglia network", correct: false },
+          { text: "Pyramidal motor pathway", correct: false },
+          { text: "Corpus callosum system", correct: false }
+        ],
+        explanation: "The Reticular Activating System (RAS) in the brainstem sends continuous impulses to the cortex to maintain alertness."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "In which cerebral lobe is Broca's motor speech area located?",
+        options: [
+          { text: "Frontal lobe (left side)", correct: true },
+          { text: "Parietal lobe", correct: false },
+          { text: "Temporal lobe", correct: false },
+          { text: "Occipital lobe", correct: false },
+          { text: "Insula", correct: false }
+        ],
+        explanation: "Broca's speech area is located in the frontal lobe (usually left hemisphere) anterior to the precentral gyrus."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "Where is Cerebrospinal Fluid (CSF) reabsorbed back into the venous blood stream?",
+        options: [
+          { text: "Arachnoid villi (granulations) into dural venous sinuses", correct: true },
+          { text: "Choroid plexuses of the lateral ventricles", correct: false },
+          { text: "Central canal of the lumbar cord", correct: false },
+          { text: "Deep lymphatic nodes of the neck", correct: false },
+          { text: "Substantia nigra capillaries", correct: false }
+        ],
+        explanation: "CSF is reabsorbed into venous blood in dural venous sinuses via arachnoid villi."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "Which structure in the epithalamus secretes the hormone melatonin to regulate sleep-wake cycles?",
+        options: [
+          { text: "Pineal gland", correct: true },
+          { text: "Pituitary gland", correct: false },
+          { text: "Hypothalamus", correct: false },
+          { text: "Thalamus", correct: false },
+          { text: "Mamillary bodies", correct: false }
+        ],
+        explanation: "The pineal gland in the epithalamus secretes melatonin, promoting sleepiness in response to darkness."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "What is the primary function of the basal nuclei (ganglia) in motor control?",
+        options: [
+          { text: "Initiating and terminating intentional movements and suppressing unwanted movements", correct: true },
+          { text: "Directly triggering muscle action potentials via ventral roots", correct: false },
+          { text: "Processing visual images from the optic nerve", correct: false },
+          { text: "Secreting cerebrospinal fluid into the cerebral aqueduct", correct: false },
+          { text: "Relaying taste sensations from the tongue to the parietal lobe", correct: false }
+        ],
+        explanation: "Basal nuclei help initiate and terminate movements, control muscle tone, and suppress unwanted movements."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "Which cranial nerve is CN II, responsible strictly for visual sensory input?",
+        options: [
+          { text: "Optic nerve", correct: true },
+          { text: "Olfactory nerve", correct: false },
+          { text: "Oculomotor nerve", correct: false },
+          { text: "Trochlear nerve", correct: false },
+          { text: "Trigeminal nerve", correct: false }
+        ],
+        explanation: "Cranial Nerve II is the Optic nerve, dedicated entirely to vision."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "What general response is produced by stimulation of the parasympathetic nervous system?",
+        options: [
+          { text: "Decreased heart rate, increased digestive secretions, and airway constriction", correct: true },
+          { text: "Increased heart rate, elevated blood pressure, and pupil dilation", correct: false },
+          { text: "Massive glycogen breakdown and inhibition of gut motility", correct: false },
+          { text: "Increased sweating and contraction of arrector pili muscles", correct: false },
+          { text: "Dilation of skeletal muscle blood vessels", correct: false }
+        ],
+        explanation: "Parasympathetic activity slows heart rate, increases digestion/salivation, and constricts airways ('rest-and-digest')."
+      },
+      {
+        lec: 3, type: "mcq",
+        text: "Where is the primary somatosensory cortex located in the cerebral cortex?",
+        options: [
+          { text: "Postcentral gyrus of the parietal lobe", correct: true },
+          { text: "Precentral gyrus of the frontal lobe", correct: false },
+          { text: "Superior temporal gyrus", correct: false },
+          { text: "Occipital pole", correct: false },
+          { text: "Anterior insula", correct: false }
+        ],
+        explanation: "The primary somatosensory cortex is situated on the postcentral gyrus of the parietal lobe."
+      },
+
+      // ==========================================
+      // LECTURE 4: RESPIRATORY & ACID-BASE (45 Qs: 30 MCQ, 15 SATA)
+      // ==========================================
+      {
+        lec: 4, type: "sata",
+        text: "Which anatomical structures are part of the upper respiratory tract? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Nose and nasal cavities", correct: true },
+          { text: "Paranasal sinuses", correct: true },
+          { text: "Pharynx (throat)", correct: true },
+          { text: "Larynx (voice box)", correct: true },
+          { text: "Trachea and primary bronchi", correct: false }
+        ],
+        explanation: "Upper respiratory tract structures: nose, nasal cavity, paranasal sinuses, pharynx, and larynx. Trachea and lungs form the lower tract."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Which histological characteristics are typical of respiratory epithelium lining most of the conducting airways? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Pseudostratified ciliated columnar epithelium", correct: true },
+          { text: "Mucus-secreting goblet cells interspersed among columnar cells", correct: true },
+          { text: "Cilia that move trapped particles upward toward the pharynx", correct: true },
+          { text: "Vascular lamina propria that warms and humidifies incoming air", correct: true },
+          { text: "Keratinized stratified squamous epithelium with hair follicles", correct: false }
+        ],
+        explanation: "Respiratory epithelium is pseudostratified ciliated columnar with goblet cells, cilia, and underlying vascular network."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Which cell types are found in the walls of pulmonary alveoli? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Type I alveolar cells (simple squamous epithelial cells forming gas exchange barrier)", correct: true },
+          { text: "Type II alveolar cells (septal cells secreting pulmonary surfactant)", correct: true },
+          { text: "Alveolar macrophages (dust cells phagocytizing foreign material)", correct: true },
+          { text: "Red blood cells within adjacent alveolar capillaries", correct: true },
+          { text: "Stratified transitional epithelial cells producing glycogen", correct: false }
+        ],
+        explanation: "Alveoli contain Type I cells (gas exchange), Type II cells (surfactant), alveolar macrophages (cleaners), and surrounding capillaries."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "According to Boyle's Law and ventilation mechanics, which events occur during inhalation? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Diaphragm contracts and moves downward, increasing thoracic cavity volume", correct: true },
+          { text: "External intercostals contract, pulling ribs upward and outward", correct: true },
+          { text: "Intrapulmonary volume increases, causing intrapulmonary pressure to drop below atmospheric pressure", correct: true },
+          { text: "Air flows passively down its pressure gradient into the lungs", correct: true },
+          { text: "Intrapulmonary pressure rises above atmospheric pressure to force air in", correct: false }
+        ],
+        explanation: "Inhalation expands thoracic volume, dropping lung pressure below atmospheric pressure so air rushes in."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "How is carbon dioxide transported in systemic blood? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Dissolved in blood plasma (~7%)", correct: true },
+          { text: "Bound to hemoglobin as carbaminohemoglobin (~23%)", correct: true },
+          { text: "As bicarbonate ions (HCO3-) dissolved in plasma (~70%)", correct: true },
+          { text: "Converted into carbonic acid inside RBCs via carbonic anhydrase", correct: true },
+          { text: "As pure nitrogen gas bound to white blood cell membranes", correct: false }
+        ],
+        explanation: "CO2 transport: 70% bicarbonate ions, 23% carbaminohemoglobin, 7% dissolved in plasma."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Which physiological factors cause hemoglobin to release oxygen more readily to active tissues (right shift of dissociation curve)? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Increased partial pressure of carbon dioxide (PCO2)", correct: true },
+          { text: "Decreased blood pH (increased acidity / Bohr effect)", correct: true },
+          { text: "Increased temperature in active tissues", correct: true },
+          { text: "Increased production of 2,3-bisphosphoglycerate (2,3-BPG)", correct: true },
+          { text: "Decreased temperature and alkaline pH", correct: false }
+        ],
+        explanation: "Higher CO2, higher acidity (low pH), higher temperature, and BPG all shift the curve right, promoting O2 release to tissues."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Which buffer systems help maintain normal blood and tissue pH in the human body? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Carbonic acid-bicarbonate buffer system", correct: true },
+          { text: "Protein buffer system (hemoglobin, plasma proteins)", correct: true },
+          { text: "Phosphate buffer system", correct: true },
+          { text: "Respiratory system (controlling CO2 elimination)", correct: true },
+          { text: "Renal system (controlling H+ excretion and HCO3- reabsorption)", correct: true }
+        ],
+        explanation: "Body pH is regulated by chemical buffers (bicarbonate, protein, phosphate) and physiological buffers (lungs, kidneys)."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Regarding physiological acid-base regulation, which statements are correct? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Hypoventilation causes CO2 accumulation, leading to respiratory acidosis", correct: true },
+          { text: "Hyperventilation causes excessive CO2 loss, leading to respiratory alkalosis", correct: true },
+          { text: "Kidneys respond to acidosis by excreting H+ in urine and reabsorbing HCO3-", correct: true },
+          { text: "Lungs adjust breathing within minutes to compensate for metabolic acid changes", correct: true },
+          { text: "Kidneys adjust pH within 2 seconds of an acid overload", correct: false }
+        ],
+        explanation: "Lungs act within minutes by altering CO2 clearance; kidneys take hours to days to excrete H+ and adjust HCO3-."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Which respiratory volumes or capacities are correctly defined? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Tidal Volume (TV): Volume of air inhaled or exhaled during a normal quiet breath (~500 mL)", correct: true },
+          { text: "Inspiratory Reserve Volume (IRV): Volume of air forcibly inhaled beyond normal tidal volume", correct: true },
+          { text: "Residual Volume (RV): Volume of air remaining in lungs after maximal forced exhalation", correct: true },
+          { text: "Vital Capacity (VC): Total exchangeable air volume (TV + IRV + ERV)", correct: true },
+          { text: "Tidal Volume (TV): Total maximum air lungs can possibly hold (~6000 mL)", correct: false }
+        ],
+        explanation: "Tidal volume is ~500 mL per normal breath. Total Lung Capacity (TLC) is ~6000 mL."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Which structures form the thin respiratory membrane across which gas diffusion occurs? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Type I alveolar cell wall (simple squamous epithelium)", correct: true },
+          { text: "Epithelial basement membrane of alveolus", correct: true },
+          { text: "Capillary basement membrane", correct: true },
+          { text: "Endothelial cell wall of pulmonary capillary", correct: true },
+          { text: "Thick layer of hyaline cartilage and smooth muscle", correct: false }
+        ],
+        explanation: "The respiratory membrane (~0.5 microns thick) consists of Type I alveolar cells, basement membranes, and capillary endothelium."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Which chemoreceptors monitor blood chemistry to regulate breathing rate and depth? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Central chemoreceptors in the medulla oblongata sensing H+ / CO2 in CSF", correct: true },
+          { text: "Peripheral chemoreceptors in carotid bodies sensing PCO2, pH, and PO2", correct: true },
+          { text: "Peripheral chemoreceptors in aortic arch sensing PCO2, pH, and PO2", correct: true },
+          { text: "Baroreceptors in skin dermis sensing atmospheric pressure shifts", correct: false },
+          { text: "Proprioceptors in cranial bones sensing CSF fluid weight", correct: false }
+        ],
+        explanation: "Breathing is regulated by central chemoreceptors in the medulla and peripheral chemoreceptors in carotid/aortic bodies."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Which values reflect standard physiological reference ranges for arterial blood gases (ABGs)? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Arterial pH: 7.35 to 7.45", correct: true },
+          { text: "PaCO2: 35 to 45 mmHg", correct: true },
+          { text: "HCO3-: 22 to 26 mEq/L", correct: true },
+          { text: "Arterial pH: 6.80 to 7.00", correct: false },
+          { text: "PaCO2: 80 to 100 mmHg", correct: false }
+        ],
+        explanation: "Normal ABG standards: pH 7.35-7.45, PaCO2 35-45 mmHg, HCO3- 22-26 mEq/L."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Which non-respiratory air movements serve protective or physiological functions? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Coughing: Sudden blast of air clearing lower respiratory passages", correct: true },
+          { text: "Sneezing: Forced exhalation clearing upper nasal passages", correct: true },
+          { text: "Yawning: Very deep inspiration ventilating all alveoli", correct: true },
+          { text: "Hiccuping: Spasmodic diaphragmatic contraction with sudden glottis closure", correct: true },
+          { text: "Coughing: Spontaneous exocytosis of surfactant into the parietal pleura", correct: false }
+        ],
+        explanation: "Coughing clears lower airways; sneezing clears upper nasal cavity; yawning ventilates alveoli; hiccups are diaphragmatic spasms."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "Which anatomical features pertain to the human lungs? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Right lung has 3 lobes (superior, middle, inferior)", correct: true },
+          { text: "Left lung has 2 lobes (superior and inferior) and a cardiac notch", correct: true },
+          { text: "Covered directly by visceral pleura", correct: true },
+          { text: "Hilum on medial surface serves as entrance for bronchi and vessels", correct: true },
+          { text: "Left lung contains 4 distinct lobes separated by 3 horizontal fissures", correct: false }
+        ],
+        explanation: "Right lung has 3 lobes; left lung has 2 lobes and a cardiac notch for the heart. Both have a hilum and visceral pleura."
+      },
+      {
+        lec: 4, type: "sata",
+        text: "What occurs during internal respiration at systemic tissue capillaries? (SELECT ALL THAT APPLY)",
+        options: [
+          { text: "Oxygen diffuses out of capillary blood into interstitial fluid and cells", correct: true },
+          { text: "Carbon dioxide diffuses out of tissue cells into capillary blood", correct: true },
+          { text: "Oxyhemoglobin dissociates to release free oxygen molecules", correct: true },
+          { text: "Carbonic anhydrase converts CO2 into bicarbonate ions inside RBCs", correct: true },
+          { text: "Oxygen diffuses from interstitial fluid into pulmonary alveoli", correct: false }
+        ],
+        explanation: "Internal respiration is gas exchange between systemic capillaries and tissues (O2 enters tissues, CO2 enters blood)."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What is the normal physiological pH range for human arterial blood?",
+        options: [
+          { text: "7.35 to 7.45", correct: true },
+          { text: "7.00 to 7.10", correct: false },
+          { text: "7.50 to 7.60", correct: false },
+          { text: "6.80 to 7.20", correct: false },
+          { text: "7.80 to 8.00", correct: false }
+        ],
+        explanation: "Arterial blood pH is strictly maintained between 7.35 and 7.45."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What chemical stimulus is the primary controller of normal resting respiratory rate via central chemoreceptors?",
+        options: [
+          { text: "Hydrogen ion (H+) concentration / PCO2 in cerebrospinal fluid", correct: true },
+          { text: "Oxygen (PO2) drop below 90 mmHg in plasma", correct: false },
+          { text: "Sodium ion concentration in venous blood", correct: false },
+          { text: "Nitrogen gas pressure in alveoli", correct: false },
+          { text: "Glucose levels in cerebral capillaries", correct: false }
+        ],
+        explanation: "PCO2 (via H+ concentration in CSF) is the primary chemical driver of normal ventilation."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What is the approximate volume of air moved during a single normal, resting breath (Tidal Volume)?",
+        options: [
+          { text: "500 mL", correct: true },
+          { text: "1200 mL", correct: false },
+          { text: "3100 mL", correct: false },
+          { text: "4800 mL", correct: false },
+          { text: "150 mL", correct: false }
+        ],
+        explanation: "Tidal volume is the volume of air inspired or expired in a normal quiet breath, averaging ~500 mL."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What air volume remains in the lungs even after a maximal, forced expiration?",
+        options: [
+          { text: "Residual Volume (~1200 mL)", correct: true },
+          { text: "Tidal Volume (~500 mL)", correct: false },
+          { text: "Expiratory Reserve Volume (~1100 mL)", correct: false },
+          { text: "Anatomical Dead Space (~150 mL)", correct: false },
+          { text: "Inspiratory Reserve Volume (~3100 mL)", correct: false }
+        ],
+        explanation: "Residual Volume (~1200 mL) remains in the lungs after forced expiration to keep alveoli inflated."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "Which cell type in the alveolar wall secretes pulmonary surfactant to lower surface tension?",
+        options: [
+          { text: "Type II alveolar cells (septal cells)", correct: true },
+          { text: "Type I alveolar cells", correct: false },
+          { text: "Alveolar macrophages", correct: false },
+          { text: "Goblet cells", correct: false },
+          { text: "Ciliated columnar cells", correct: false }
+        ],
+        explanation: "Type II alveolar cells produce surfactant, a phospholipid mixture that prevents alveolar collapse."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "Which enzyme inside erythrocytes catalyzes the rapid conversion of CO2 and H2O into carbonic acid?",
+        options: [
+          { text: "Carbonic anhydrase", correct: true },
+          { text: "Acetylcholinesterase", correct: false },
+          { text: "Renin", correct: false },
+          { text: "Amylase", correct: false },
+          { text: "Pepsin", correct: false }
+        ],
+        explanation: "Carbonic anhydrase accelerates the reversible reaction combining CO2 and water into carbonic acid (H2CO3)."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "How does hyperventilation affect arterial blood PCO2 and pH?",
+        options: [
+          { text: "Decreases PCO2 and increases pH (causes respiratory alkalosis)", correct: true },
+          { text: "Increases PCO2 and decreases pH (causes respiratory acidosis)", correct: false },
+          { text: "Increases PCO2 and increases pH", correct: false },
+          { text: "Decreases PCO2 and decreases pH", correct: false },
+          { text: "Has no effect on blood PCO2 or pH", correct: false }
+        ],
+        explanation: "Hyperventilation clears CO2 faster than it is produced, dropping PCO2 and increasing blood pH."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "Which laryngeal cartilage forms the prominent anterior shield known as the 'Adam's apple'?",
+        options: [
+          { text: "Thyroid cartilage", correct: true },
+          { text: "Cricoid cartilage", correct: false },
+          { text: "Epiglottis", correct: false },
+          { text: "Arytenoid cartilage", correct: false },
+          { text: "Corniculate cartilage", correct: false }
+        ],
+        explanation: "The thyroid cartilage is the largest laryngeal cartilage and forms the laryngeal prominence (Adam's apple)."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What structure closes over the laryngeal inlet during swallowing to prevent food from entering the trachea?",
+        options: [
+          { text: "Epiglottis", correct: true },
+          { text: "Thyroid cartilage", correct: false },
+          { text: "Uvula", correct: false },
+          { text: "True vocal cord", correct: false },
+          { text: "Carina", correct: false }
+        ],
+        explanation: "The epiglottis folds down to cover the glottis during swallowing, routing food into the esophagus."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "In what form is the majority (~70%) of carbon dioxide transported in the blood?",
+        options: [
+          { text: "Bicarbonate ions (HCO3-) dissolved in plasma", correct: true },
+          { text: "Carbaminohemoglobin inside red blood cells", correct: false },
+          { text: "Dissolved CO2 gas in plasma", correct: false },
+          { text: "Bound to serum albumin proteins", correct: false },
+          { text: "Carbon monoxide gas in white blood cells", correct: false }
+        ],
+        explanation: "About 70% of CO2 is transported as bicarbonate ions (HCO3-) in blood plasma."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "Quiet, normal exhalation is primarily a passive process driven by:",
+        options: [
+          { text: "Elastic recoil of lung tissue and thoracic wall relaxation", correct: true },
+          { text: "Active contraction of internal intercostal muscles", correct: false },
+          { text: "Active contraction of abdominal wall muscles", correct: false },
+          { text: "Forced flattening of the diaphragm", correct: false },
+          { text: "Contraction of sternocleidomastoid muscles", correct: false }
+        ],
+        explanation: "Quiet exhalation is passive, requiring no muscle contraction; it relies on elastic recoil of the lungs and chest wall."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What is the primary function of cilia in the respiratory epithelium lining the trachea?",
+        options: [
+          { text: "Moving mucus and trapped debris upward toward the pharynx", correct: true },
+          { text: "Secreting surfactant to lower surface tension", correct: false },
+          { text: "Absorbing oxygen directly into underlying capillaries", correct: false },
+          { text: "Filtering large visible dust hairs in the nasal vestibule", correct: false },
+          { text: "Synthesizing carbonic anhydrase for blood plasma", correct: false }
+        ],
+        explanation: "Cilia beat rhythmically in the mucociliary escalator to sweep mucus and trapped particles up to the pharynx."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "How many lobes are present in the human right lung versus the left lung?",
+        options: [
+          { text: "Right lung has 3 lobes; Left lung has 2 lobes", correct: true },
+          { text: "Right lung has 2 lobes; Left lung has 3 lobes", correct: false },
+          { text: "Both lungs have 3 lobes", correct: false },
+          { text: "Both lungs have 2 lobes", correct: false },
+          { text: "Right lung has 4 lobes; Left lung has 2 lobes", correct: false }
+        ],
+        explanation: "The right lung has 3 lobes (superior, middle, inferior) and the left lung has 2 lobes (superior, inferior)."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "How does a decrease in blood pH (increased H+ concentration) affect hemoglobin's affinity for oxygen?",
+        options: [
+          { text: "Decreases affinity, causing hemoglobin to release oxygen more easily (Bohr effect)", correct: true },
+          { text: "Increases affinity, causing hemoglobin to hold oxygen more tightly", correct: false },
+          { text: "Has no effect on hemoglobin oxygen binding", correct: false },
+          { text: "Destroys the heme group permanently", correct: false },
+          { text: "Converts hemoglobin into myoglobin", correct: false }
+        ],
+        explanation: "Acidity (low pH) weakens the bond between hemoglobin and oxygen (Bohr effect), delivering more O2 to active tissues."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What anatomical junction marks the bifurcation of the trachea into the left and right primary bronchi?",
+        options: [
+          { text: "Carina", correct: true },
+          { text: "Glottis", correct: false },
+          { text: "Epiglottis", correct: false },
+          { text: "Hilum", correct: false },
+          { text: "Fauces", correct: false }
+        ],
+        explanation: "The carina is the internal ridge at the point where the trachea divides into right and left primary bronchi."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "How do the kidneys compensate for a state of respiratory acidosis?",
+        options: [
+          { text: "Excreting H+ ions into urine and reabsorbing HCO3- into blood", correct: true },
+          { text: "Excreting HCO3- ions into urine and reabsorbing H+ into blood", correct: false },
+          { text: "Increasing breathing rate to blow off excess oxygen", correct: false },
+          { text: "Decreasing filtration rate to trap CO2 gas", correct: false },
+          { text: "Secreting surfactant into systemic arteries", correct: false }
+        ],
+        explanation: "To correct acidosis, kidneys excrete excess H+ in urine and reabsorb bicarbonate (HCO3-) into blood."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "Vital Capacity (VC) is equal to the sum of which respiratory volumes?",
+        options: [
+          { text: "Tidal Volume + Inspiratory Reserve Volume + Expiratory Reserve Volume", correct: true },
+          { text: "Tidal Volume + Residual Volume", correct: false },
+          { text: "Inspiratory Reserve Volume + Residual Volume", correct: false },
+          { text: "Expiratory Reserve Volume + Residual Volume", correct: false },
+          { text: "Total Lung Capacity + Anatomical Dead Space", correct: false }
+        ],
+        explanation: "Vital Capacity is the maximum volume of air that can be expired after a maximal inhalation: VC = TV + IRV + ERV."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "Which pontine region helps coordinate smooth transitions between inhalation and exhalation?",
+        options: [
+          { text: "Pontine respiratory group", correct: true },
+          { text: "Medullary ventral respiratory group", correct: false },
+          { text: "Cerebellar cortex", correct: false },
+          { text: "Corpus callosum", correct: false },
+          { text: "Hypothalamic optic chiasm", correct: false }
+        ],
+        explanation: "The pontine respiratory group in the pons modifies and smooths the rhythm of respiration."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What serous membrane layer directly covers the outer surface of each lung?",
+        options: [
+          { text: "Visceral pleura", correct: true },
+          { text: "Parietal pleura", correct: false },
+          { text: "Pericardium", correct: false },
+          { text: "Peritoneum", correct: false },
+          { text: "Endocardium", correct: false }
+        ],
+        explanation: "The visceral pleura covers the surface of the lungs directly; the parietal pleura lines the chest wall."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What occurs during external respiration?",
+        options: [
+          { text: "Gas exchange between air in pulmonary alveoli and blood in pulmonary capillaries", correct: true },
+          { text: "Gas exchange between systemic capillaries and tissue cells", correct: false },
+          { text: "Mitochondrial production of ATP using glucose", correct: false },
+          { text: "Breakdown of glycogen into glucose inside skeletal muscle", correct: false },
+          { text: "Reabsorption of bicarbonate in distal convoluted tubules", correct: false }
+        ],
+        explanation: "External respiration is the exchange of gases between pulmonary alveoli and blood in pulmonary capillaries."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "Which percentage of oxygen transported in arterial blood is dissolved directly in plasma?",
+        options: [
+          { text: "~1.5%", correct: true },
+          { text: "~98.5%", correct: false },
+          { text: "~70%", correct: false },
+          { text: "~23%", correct: false },
+          { text: "~50%", correct: false }
+        ],
+        explanation: "Only ~1.5% of oxygen is dissolved in plasma; the remaining ~98.5% is carried bound to hemoglobin."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "Which chemical condition describes blood pH dropping below 7.35?",
+        options: [
+          { text: "Acidosis", correct: true },
+          { text: "Alkalosis", correct: false },
+          { text: "Homeostatic equilibrium", correct: false },
+          { text: "Hypercapnia", correct: false },
+          { text: "Hypoxia", correct: false }
+        ],
+        explanation: "Arterial blood pH below 7.35 is defined as acidosis."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What chemical condition describes blood pH rising above 7.45?",
+        options: [
+          { text: "Alkalosis", correct: true },
+          { text: "Acidosis", correct: false },
+          { text: "Hypocapnia", correct: false },
+          { text: "Anoxia", correct: false },
+          { text: "Hyperglycemia", correct: false }
+        ],
+        explanation: "Arterial blood pH above 7.45 is defined as alkalosis."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What is the primary role of the carbonic acid-bicarbonate buffer system in blood plasma?",
+        options: [
+          { text: "Resisting drastic changes in blood pH by binding or releasing H+ ions", correct: true },
+          { text: "Synthesizing new hemoglobin molecules in red bone marrow", correct: false },
+          { text: "Pumping sodium ions across the neuromuscular junction", correct: false },
+          { text: "Digestive breakdown of dietary proteins in the stomach", correct: false },
+          { text: "Transporting lipids from liver to adipose tissue", correct: false }
+        ],
+        explanation: "Chemical buffer systems like bicarbonate quickly tie up or release H+ to prevent sudden pH shifts."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "Which region of the respiratory tract contains C-shaped hyaline cartilage rings that keep the airway open?",
+        options: [
+          { text: "Trachea", correct: true },
+          { text: "Alveolar duct", correct: false },
+          { text: "Terminal bronchiole", correct: false },
+          { text: "Oropharynx", correct: false },
+          { text: "Nasal vestibule", correct: false }
+        ],
+        explanation: "The trachea contains 16 to 20 incomplete C-shaped hyaline cartilage rings to prevent collapse during pressure changes."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What happens to airway resistance when smooth muscle in bronchioles contracts (bronchoconstriction)?",
+        options: [
+          { text: "Airway resistance increases, reducing airflow", correct: true },
+          { text: "Airway resistance drops to zero, increasing airflow", correct: false },
+          { text: "Surfactant production doubles immediately", correct: false },
+          { text: "Vital capacity increases by 50%", correct: false },
+          { text: "Intrapulmonary pressure equals atmospheric pressure at all times", correct: false }
+        ],
+        explanation: "Bronchoconstriction narrows bronchiole lumen diameter, significantly increasing airway resistance."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What is the function of the nasal conchae (superior, middle, inferior) in the nasal cavity?",
+        options: [
+          { text: "Increasing surface area and creating air turbulence to warm, moisten, and filter air", correct: true },
+          { text: "Secreting digestive enzymes to breakdown incoming foreign proteins", correct: false },
+          { text: "Vibrating to produce high-pitched vocal tones during speech", correct: false },
+          { text: "Storing oxygen gas for quick diffusion into olfactory nerves", correct: false },
+          { text: "Pumping lymphatic fluid into the superior vena cava", correct: false }
+        ],
+        explanation: "Nasal conchae swirl incoming air, increasing contact with warm, moist mucosa to filter, warm, and humidify air."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "How does pulmonary surfactant prevent alveolar collapse during exhalation?",
+        options: [
+          { text: "By disrupting cohesive hydrogen bonds between water molecules, reducing surface tension", correct: true },
+          { text: "By physically propping open alveoli with rigid collagen pillars", correct: false },
+          { text: "By pumping high-pressure air directly into alveolar sacs", correct: false },
+          { text: "By binding tightly to hemoglobin inside capillary red blood cells", correct: false },
+          { text: "By neutralizing carbonic acid in alveolar fluid", correct: false }
+        ],
+        explanation: "Surfactant reduces fluid surface tension by interfering with water molecule cohesion, preventing alveolar collapse."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "Which pharyngeal region serves as a common passageway for both food and air, located posterior to the oral cavity?",
+        options: [
+          { text: "Oropharynx", correct: true },
+          { text: "Nasopharynx", correct: false },
+          { text: "Laryngopharynx", correct: false },
+          { text: "Trachea", correct: false },
+          { text: "Nasal vestibule", correct: false }
+        ],
+        explanation: "The oropharynx sits posterior to the oral cavity and transmits both air and swallowed food/liquid."
+      },
+      {
+        lec: 4, type: "mcq",
+        text: "What metabolic compensation occurs in response to prolonged metabolic acidosis?",
+        options: [
+          { text: "Hyperventilation to blow off excess CO2 and reduce blood acid levels", correct: true },
+          { text: "Hypoventilation to trap CO2 and increase blood acid levels", correct: false },
+          { text: "Decreased renal excretion of hydrogen ions", correct: false },
+          { text: "Inhibition of carbonic anhydrase in erythrocytes", correct: false },
+          { text: "Complete shutdown of central chemoreceptors", correct: false }
+        ],
+        explanation: "In metabolic acidosis, respiratory compensation triggers hyperventilation to exhale CO2 and raise pH toward normal."
+      }
+    ];
+
+    let currentLec = "all";
+    let shuffledQuestions = [];
+    let activeQuestions = [];
+    const userState = new Map();
+
+    function shuffleArray(array) {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function buildShuffledQuestionSet() {
+        const grouped = [];
+        for (let lec = 1; lec <= 4; lec++) {
+            const lectureQuestions = questionBank
+                .map((q, index) => ({ ...q, qid: index }))
+                .filter(q => q.lec === lec);
+            grouped.push(...shuffleArray(lectureQuestions).map(q => ({
+                ...q,
+                options: shuffleArray(q.options)
+            })));
+        }
+        shuffledQuestions = shuffleArray(grouped);
+    }
+
+    function setActiveQuestions(lec) {
+        currentLec = lec;
+        activeQuestions = lec === "all"
+            ? [...shuffledQuestions]
+            : shuffledQuestions.filter(q => q.lec === Number(lec));
+    }
+
+    function resetAttempt() {
+        userState.clear();
+        buildShuffledQuestionSet();
+        setActiveQuestions(currentLec);
+        renderQuestions();
+        updateScore();
+    }
+
+    function filterQuestions(lec, button) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        setActiveQuestions(lec);
+        renderQuestions();
+        updateScore();
+    }
+
+    function updateScore() {
+        let submittedCount = 0;
+        let totalScore = 0;
+
+        userState.forEach(state => {
+            if (state.submitted) {
+                submittedCount++;
+                totalScore += state.score;
+            }
+        });
+
+        const grade = submittedCount > 0
+            ? Math.round((totalScore / submittedCount) * 100)
+            : 0;
+
+        const scoreElem = document.getElementById('score-counter');
+        scoreElem.textContent = `Grade: ${grade}%`;
+        scoreElem.title = `Answered ${submittedCount} / ${questionBank.length}`;
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById('questionsContainer');
+        container.innerHTML = '';
+        const letters = ['A', 'B', 'C', 'D', 'E'];
+
+        activeQuestions.forEach((q, displayIndex) => {
+            const state = userState.get(q.qid) || { submitted: false, selected: [], score: 0 };
+            const card = document.createElement('div');
+            card.className = 'q-card';
+            card.id = `qcard-${q.qid}`;
+
+            if (state.submitted) {
+                card.classList.add('answered');
+                if (state.score === 1) card.classList.add('is-correct');
+                else if (state.score > 0) card.classList.add('is-partial');
+                else card.classList.add('is-wrong');
+            }
+
+            let optionsHTML = '';
+            q.options.forEach((opt, optIndex) => {
+                let extraClass = '';
+                if (state.submitted) {
+                    if (opt.correct && state.score === 1) extraClass = 'user-correct';
+                    else if (opt.correct) extraClass = 'reveal-correct';
+                    else if (state.selected.includes(optIndex)) extraClass = 'user-wrong';
+                } else if (state.selected.includes(optIndex)) {
+                    extraClass = 'selected';
+                }
+
+                optionsHTML += `
+                    <button type="button" class="opt-btn ${extraClass}"
+                            ${state.submitted ? 'disabled' : ''}
+                            onclick="handleOptionClick(${q.qid}, ${optIndex})">
+                        <span class="opt-prefix">${letters[optIndex]}.</span>
+                        <span>${escapeHTML(opt.text)}</span>
+                    </button>
+                `;
+            });
+
+            const badge = q.type === 'sata' ? 'SATA' : 'MCQ';
+            const submitDisabled = state.submitted || state.selected.length === 0 ? 'disabled' : '';
+            const buttonText = state.submitted ? 'Submitted' : 'Submit Answer';
+
+            card.innerHTML = `
+                <div class="q-header">
+                    <span class="q-num">Question ${displayIndex + 1}</span>
+                    <span class="q-cat">${badge}</span>
+                </div>
+                <div class="q-text">${escapeHTML(q.text)}</div>
+                <div class="opt-list">${optionsHTML}</div>
+                <button class="submit-q-btn" id="btn_${q.qid}" ${submitDisabled}
+                        onclick="submitAnswer(${q.qid})">${buttonText}</button>
+                <div class="feedback-box" id="feedback_${q.qid}"></div>
+            `;
+
+            container.appendChild(card);
+            if (state.submitted) showFeedback(q.qid);
+        });
+    }
+
+    function handleOptionClick(qid, optIndex) {
+        const q = shuffledQuestions.find(item => item.qid === qid);
+        if (!q) return;
+
+        const existing = userState.get(qid) || { submitted: false, selected: [], score: 0 };
+        if (existing.submitted) return;
+
+        let selected;
+        if (q.type === 'mcq') {
+            selected = [optIndex];
+        } else {
+            selected = [...existing.selected];
+            const index = selected.indexOf(optIndex);
+            if (index >= 0) selected.splice(index, 1);
+            else selected.push(optIndex);
+        }
+
+        userState.set(qid, { submitted: false, selected, score: 0 });
+        renderQuestions();
+    }
+
+    function submitAnswer(qid) {
+        const q = shuffledQuestions.find(item => item.qid === qid);
+        const state = userState.get(qid);
+        if (!q || !state || state.selected.length === 0 || state.submitted) return;
+
+        state.submitted = true;
+
+        if (q.type === 'mcq') {
+            state.score = q.options[state.selected[0]]?.correct ? 1 : 0;
+        } else {
+            const totalCorrect = q.options.filter(option => option.correct).length;
+            let correctSelected = 0;
+            let incorrectSelected = 0;
+
+            state.selected.forEach(index => {
+                if (q.options[index]?.correct) correctSelected++;
+                else incorrectSelected++;
+            });
+
+            // NCLEX partial-credit scoring logic
+            state.score = Math.min(1, Math.max(0, (correctSelected - incorrectSelected) / totalCorrect));
+        }
+
+        userState.set(qid, state);
+        updateScore();
+        renderQuestions();
+    }
+
+    function showFeedback(qid) {
+        const q = shuffledQuestions.find(item => item.qid === qid);
+        const state = userState.get(qid);
+        const fbBox = document.getElementById(`feedback_${qid}`);
+        if (!q || !state || !fbBox) return;
+
+        let statusClass = 'incorrect';
+        let titleText = '✗ Incorrect';
+
+        if (state.score === 1) {
+            statusClass = 'correct';
+            titleText = '✓ Correct!';
+        } else if (state.score > 0) {
+            statusClass = 'partial';
+            titleText = `Partial Credit (+${state.score.toFixed(2)})`;
+        }
+
+        fbBox.className = `feedback-box ${statusClass}`;
+        fbBox.style.display = 'block';
+        fbBox.innerHTML = `
+            <div class="feedback-title">${titleText}</div>
+            <div class="explanation">${escapeHTML(q.explanation)}</div>
+        `;
+    }
+
+    function escapeHTML(value) {
+        return String(value)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#039;');
+    }
+
+    document.getElementById('navTabs').addEventListener('click', event => {
+        const button = event.target.closest('.filter-btn');
+        if (!button) return;
+        filterQuestions(button.dataset.lec, button);
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', resetAttempt);
+
+    buildShuffledQuestionSet();
+    setActiveQuestions('all');
+    renderQuestions();
+    updateScore();
+    </script>
+</body>
+</html>
